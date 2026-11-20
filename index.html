@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>កម្មវិធីតាមដាន និងត្រួតពិនិត្យការអនុវត្តការងារ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Battambang:wght@100;300;400;700;900&family=Noto+Sans+Khmer:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --primary-dark: #0e3a53;
+            --secondary: #27ae60;
+            --secondary-light: #2ecc71;
+            --accent: #e74c3c;
+            --warning: #f39c12;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #dce1e6;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 25px rgba(0,0,0,0.12);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Khmer', 'Battambang', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ===== LOGIN PAGE ===== */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-box .logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(26, 82, 118, 0.3);
+        }
+
+        .login-box h1 {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-box p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+            background: #fafbfc;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-light);
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(41, 128, 185, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            width: 100%;
+            justify-content: center;
+            padding: 14px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 82, 118, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--accent), #c0392b);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .login-error {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* ===== MAIN APP ===== */
+        .app-container {
+            display: none;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 0 30px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left .app-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        .user-info .user-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            background: white;
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            padding: 0 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: rgba(41, 128, 185, 0.05);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 25px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.blue::before { background: var(--primary-light); }
+        .stat-card.green::before { background: var(--secondary); }
+        .stat-card.orange::before { background: var(--warning); }
+        .stat-card.red::before { background: var(--accent); }
+        .stat-card.purple::before { background: #8e44ad; }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr:hover {
+            background: rgba(41, 128, 185, 0.04);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        tbody tr:nth-child(even):hover {
+            background: rgba(41, 128, 185, 0.06);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btns .btn {
+            padding: 6px 10px;
+            font-size: 12px;
+            border-radius: 6px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+
+        .filter-bar .form-group {
+            margin-bottom: 0;
+            min-width: 180px;
+        }
+
+        .filter-bar .form-group label {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .filter-bar .form-group select,
+        .filter-bar .form-group input {
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        /* Period Tabs */
+        .period-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: var(--bg);
+            padding: 5px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .period-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        .period-tab:hover {
+            background: rgba(41, 128, 185, 0.1);
+            color: var(--primary);
+        }
+
+        .period-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Report Summary */
+        .summary-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .summary-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .summary-item .value {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .summary-item .label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.green { background: var(--secondary); }
+        .progress-fill.blue { background: var(--primary-light); }
+        .progress-fill.orange { background: var(--warning); }
+        .progress-fill.red { background: var(--accent); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 2px solid var(--bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: var(--bg);
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            border-top: 2px solid var(--bg);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Toast / Notification */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
+            min-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.success { border-left: 4px solid var(--secondary); }
+        .toast.error { border-left: 4px solid var(--accent); }
+        .toast.warning { border-left: 4px solid var(--warning); }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-blue { background: #ebf5fb; color: var(--primary-light); }
+        .badge-green { background: #eafaf1; color: var(--secondary); }
+        .badge-orange { background: #fef9e7; color: var(--warning); }
+        .badge-red { background: #fdedec; color: var(--accent); }
+
+        /* Department/Office Tree */
+        .tree-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .tree-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .tree-item-header h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tree-children {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 0 15px;
+            }
+
+            .header-left h1 {
+                font-size: 14px;
+            }
+
+            .nav-tabs {
+                padding: 0 15px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .filter-bar .form-group {
+                min-width: 100%;
+            }
+        }
+
+        @media print {
+            .app-header, .nav-tabs, .btn, .action-btns, .filter-bar, .form-actions {
+                display: none !important;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+            }
+
+            body {
+                background: white;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 20px;
+                padding: 20px;
+                border-bottom: 3px solid var(--primary);
+            }
+        }
+
+        .print-header {
+            display: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        /* Percentage display */
+        .percentage-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .percentage-bar-mini {
+            width: 60px;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .percentage-bar-mini .fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div class="login-container" id="loginPage">
+    <div class="login-box">
+        <div class="logo">📊</div>
+        <h1>កម្មវិធីតាមដាន និងត្រួតពិនិត្យ</h1>
+        <p>ការអនុវត្តការងាររបស់មន្ត្រី</p>
+        <div class="form-group">
+            <label>🔑 លេខសម្ងាត់</label>
+            <input type="password" id="loginPassword" placeholder="បញ្ចូលលេខសម្ងាត់..." onkeypress="if(event.key==='Enter')login()">
+        </div>
+        <button class="btn btn-primary" onclick="login()">🔓 ចូលប្រើប្រាស់</button>
+        <p class="login-error" id="loginError">❌ លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
+    </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app-container" id="appContainer">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="app-icon">📊</div>
+            <h1>កម្មវិធីតាមដាន និងត្រួតពិនិត្យការអនុវត្តការងារ</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span id="currentUserName">👤</span>
+                <span class="user-badge" id="currentUserRole">Admin</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">🚪 ចាកចេញ</button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs" id="navTabs">
+        <div class="nav-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 ផ្ទាំងគ្រប់គ្រង</div>
+        <div class="nav-tab" data-tab="input" onclick="switchTab('input')">📝 បញ្ចូលទិន្នន័យ</div>
+        <div class="nav-tab" data-tab="activities" onclick="switchTab('activities')">📋 សកម្មភាពការងារ</div>
+        <div class="nav-tab admin-only" data-tab="admin" onclick="switchTab('admin')">🔒 ផ្ទាំង Admin</div>
+        <div class="nav-tab admin-only" data-tab="manage" onclick="switchTab('manage')">⚙️ គ្រប់គ្រង</div>
+        <div class="nav-tab admin-only" data-tab="report" onclick="switchTab('report')">📄 របាយការណ៍</div>
+    </nav>
+
+    <!-- Print Header (shown only when printing) -->
+    <div class="print-header">
+        <h1>របាយការណ៍ការអនុវត្តការងារ</h1>
+        <p id="printDate"></p>
+    </div>
+
+    <main class="main-content">
+
+        <!-- ===== DASHBOARD TAB ===== -->
+        <div class="tab-content active" id="tab-dashboard">
+            <div class="stats-grid" id="dashboardStats"></div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 សកម្មភាពការងារថ្មីៗ</h3>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ល.រ</th>
+                                <th>កាលបរិច្ឆេទ</th>
+                                <th>នាយកដ្ឋាន</th>
+                                <th>ការិយាល័យ</th>
+                                <th>មន្ត្រី</th>
+                                <th>សកម្មភាព</th>
+                                <th>មេគុណទម្ងាន់</th>
+                                <th>ភាគរយ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivities"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== INPUT TAB ===== -->
+        <div class="tab-content" id="tab-input">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📝 បញ្ចូលសកម្មភាពការងារ</h3>
+                </div>
+
+                <form id="activityForm" onsubmit="submitActivity(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>📅 កាលបរិច្ឆេទ</label>
+                            <input type="date" id="actDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🏛️ នាយកដ្ឋានទទួលបន្ទុក</label>
+                            <select id="actDepartment" required onchange="updateOffices()">
+                                <option value="">-- ជ្រើសរើសនាយកដ្ឋាន --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>🏢 ការិយាល័យទទួលបន្ទុក</label>
+                            <select id="actOffice" required onchange="updateStaff()">
+                                <option value="">-- ជ្រើសរើសការិយាល័យ --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>👤 ឈ្មោះមន្ត្រីទទួលបន្ទុក</label>
+                            <select id="actStaff" required>
+                                <option value="">-- ជ្រើសរើសមន្ត្រី --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📋 សកម្មភាពការងារដែលត្រូវអនុវត្ត</label>
+                        <textarea id="actDescription" rows="3" placeholder="បរិយាយអំពីសកម្មភាពការងារ..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>⚖️ មេគុណទម្ងាន់</label>
+                            <input type="number" id="actWeight" step="0.01" min="0" max="100" placeholder="ឧ. 1.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>📊 ភាគរយអនុវត្ត (%)</label>
+                            <input type="number" id="actPercentage" step="0.1" min="0" max="100" placeholder="ឧ. 85" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📝 កំណត់ចំណាំ (ជាជម្រើស)</label>
+                        <textarea id="actNote" rows="2" placeholder="កំណត់ចំណាំបន្ថែម..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">💾 រក្សាទុក</button>
+                        <button type="button" class="btn btn-outline" onclick="resetForm()">🔄 លុបចោល</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== ACTIVITIES TAB ===== -->
+        <div class="tab-content" id="tab-activities">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 បញ្ជីសកម្មភាពការងារទាំងអស់</h3>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="form-group">
+                        <label>🏛️ នាយកដ្ឋាន</label>
+                        <select id="filterDept" onchange="filterActivities()">
+                            <option value="">ទាំងអស់</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🏢 ការិយាល័យ</label>
+                        <select id="filterOffice" onchange="filterActivities()">
+                            <option value="">ទាំងអស់</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>👤 មន្ត្រី</label>
+                        <select id="filterStaff" onchange="filterActivities()">
+                            <option value="">ទាំងអស់</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📅 ចាប់ពី</label>
+                        <input type="date" id="filterDateFrom" onchange="filterActivities()">
+                    </div>
+                    <div class="form-group">
+                        <label>📅 ដល់</label>
+                        <input type="date" id="filterDateTo" onchange="filterActivities()">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ល.រ</th>
+                                <th>កាលបរិច្ឆេទ</th>
+                                <th>នាយកដ្ឋាន</th>
+                                <th>ការិយាល័យ</th>
+                                <th>មន្ត្រី</th>
+                                <th>សកម្មភាពការងារ</th>
+                                <th>មេគុណទម្ងាន់</th>
+                                <th>ភាគរយ (%)</th>
+                                <th>សកម្មភាព</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activitiesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ADMIN TAB ===== -->
+        <div class="tab-content" id="tab-admin">
+            <!-- Period Tabs -->
+            <div class="period-tabs">
+                <div class="period-tab active" data-period="weekly" onclick="switchPeriod('weekly')">📅 ប្រចាំសប្ដាហ៍</div>
+                <div class="period-tab" data-period="monthly" onclick="switchPeriod('monthly')">🗓️ ប្រចាំខែ</div>
+                <div class="period-tab" data-period="quarterly" onclick="switchPeriod('quarterly')">📊 ត្រីមាស</div>
+                <div class="period-tab" data-period="semiannual" onclick="switchPeriod('semiannual')">📈 ឆមាស</div>
+                <div class="period-tab" data-period="annual" onclick="switchPeriod('annual')">📆 ប្រចាំឆ្នាំ</div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="summary-section" id="adminSummary"></div>
+
+            <!-- Department Breakdown -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🏛️ ទិន្នន័យតាមនាយកដ្ឋាន</h3>
+                </div>
+                <div id="adminDeptBreakdown"></div>
+            </div>
+
+            <!-- Staff Performance Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👥 ការអនុវត្តការងាររបស់មន្ត្រី</h3>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ល.រ</th>
+                                <th>នាយកដ្ឋាន</th>
+                                <th>ការិយាល័យ</th>
+                                <th>ឈ្មោះមន្ត្រី</th>
+                                <th>សកម្មភាពសរុប</th>
+                                <th>មេគុណទម្ងាន់សរុប</th>
+                                <th>ភាគរយមធ្យម</th>
+                                <th>វាយតម្លៃ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminStaffTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MANAGE TAB ===== -->
+        <div class="tab-content" id="tab-manage">
+            <div class="form-grid">
+                <!-- Manage Departments -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🏛️ គ្រប់គ្រងនាយកដ្ឋាន</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>ឈ្មោះនាយកដ្ឋានថ្មី</label>
+                        <input type="text" id="newDeptName" placeholder="បញ្ចូលឈ្មោះនាយកដ្ឋាន...">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success btn-sm" onclick="addDepartment()">➕ បន្ថែម</button>
+                    </div>
+                    <div id="deptList" style="margin-top:15px;"></div>
+                </div>
+
+                <!-- Manage Offices -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🏢 គ្រប់គ្រងការិយាល័យ</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>នាយកដ្ឋាន</label>
+                        <select id="officeDeptSelect" onchange="renderOfficeList()">
+                            <option value="">-- ជ្រើសរើស --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ឈ្មោះការិយាល័យថ្មី</label>
+                        <input type="text" id="newOfficeName" placeholder="បញ្ចូលឈ្មោះការិយាល័យ...">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success btn-sm" onclick="addOffice()">➕ បន្ថែម</button>
+                    </div>
+                    <div id="officeList" style="margin-top:15px;"></div>
+                </div>
+
+                <!-- Manage Staff -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">👤 គ្រប់គ្រងមន្ត្រី</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>នាយកដ្ឋាន</label>
+                        <select id="staffDeptSelect" onchange="updateStaffOfficeSelect()">
+                            <option value="">-- ជ្រើសរើស --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ការិយាល័យ</label>
+                        <select id="staffOfficeSelect" onchange="renderStaffList()">
+                            <option value="">-- ជ្រើសរើស --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ឈ្មោះមន្ត្រីថ្មី</label>
+                        <input type="text" id="newStaffName" placeholder="បញ្ចូលឈ្មោះមន្ត្រី...">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success btn-sm" onclick="addStaff()">➕ បន្ថែម</button>
+                    </div>
+                    <div id="staffList" style="margin-top:15px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== REPORT TAB ===== -->
+        <div class="tab-content" id="tab-report">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📄 បង្កើតរបាយការណ៍</h3>
+                    <button class="btn btn-primary btn-sm" onclick="generateReport()">📊 បង្កើតរបាយការណ៍</button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="form-group">
+                        <label>📅 រយៈពេល</label>
+                        <select id="reportPeriod">
+                            <option value="weekly">ប្រចាំសប្ដាហ៍</option>
+                            <option value="monthly">ប្រចាំខែ</option>
+                            <option value="quarterly">ត្រីមាស</option>
+                            <option value="semiannual">ឆមាស</option>
+                            <option value="annual">ប្រចាំឆ្នាំ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🏛️ នាយកដ្ឋាន</label>
+                        <select id="reportDept">
+                            <option value="">ទាំងអស់</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>📅 ចាប់ពី</label>
+                        <input type="date" id="reportFrom">
+                    </div>
+                    <div class="form-group">
+                        <label>📅 ដល់</label>
+                        <input type="date" id="reportTo">
+                    </div>
+                </div>
+
+                <div id="reportContent"></div>
+
+                <div class="form-actions" id="reportActions" style="display:none;">
+                    <button class="btn btn-primary" onclick="printReport()">🖨️ បោះពុម្ព</button>
+                    <button class="btn btn-success" onclick="exportCSV()">📥 ទាញយក CSV</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>✏️ កែប្រែសកម្មភាព</h3>
+            <button class="modal-close" onclick="closeEditModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>📅 កាលបរិច្ឆេទ</label>
+                <input type="date" id="editDate">
+            </div>
+            <div class="form-group">
+                <label>📋 សកម្មភាពការងារ</label>
+                <textarea id="editDescription" rows="3"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>⚖️ មេគុណទម្ងាន់</label>
+                    <input type="number" id="editWeight" step="0.01" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label>📊 ភាគរយ (%)</label>
+                    <input type="number" id="editPercentage" step="0.1" min="0" max="100">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>📝 កំណត់ចំណាំ</label>
+                <textarea id="editNote" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeEditModal()">❌ បោះបង់</button>
+            <button class="btn btn-success" onclick="saveEdit()">💾 រក្សាទុក</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== DATA MANAGEMENT =====
+const ADMIN_PASSWORD = '363636';
+const USER_PASSWORD = '2030';
+
+let currentUser = null; // 'admin' or 'user'
+let editingActivityId = null;
+
+function getData() {
+    const data = localStorage.getItem('mcApp');
+    if (!data) {
+        const defaultData = {
+            departments: [],
+            offices: [],   // { id, name, departmentId }
+            staff: [],      // { id, name, departmentId, officeId }
+            activities: []  // { id, date, departmentId, officeId, staffId, description, weight, percentage, note, createdAt }
+        };
+        localStorage.setItem('mcApp', JSON.stringify(defaultData));
+        return defaultData;
+    }
+    return JSON.parse(data);
+}
+
+function saveData(data) {
+    localStorage.setItem('mcApp', JSON.stringify(data));
+}
+
+function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
+// ===== AUTH =====
+function login() {
+    const pwd = document.getElementById('loginPassword').value;
+    if (pwd === ADMIN_PASSWORD) {
+        currentUser = 'admin';
+        showApp();
+    } else if (pwd === USER_PASSWORD) {
+        currentUser = 'user';
+        showApp();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('loginError').style.display = 'none';
+        }, 3000);
+    }
+}
+
+function showApp() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('appContainer').style.display = 'block';
+
+    document.getElementById('currentUserRole').textContent = currentUser === 'admin' ? 'Admin' : 'User';
+    document.getElementById('currentUserName').textContent = currentUser === 'admin' ? '👤 អ្នកគ្រប់គ្រង' : '👤 អ្នកប្រើប្រាស់';
+
+    // Hide admin tabs for regular users
+    if (currentUser !== 'admin') {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    } else {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+    }
+
+    // Set default date
+    document.getElementById('actDate').valueAsDate = new Date();
+
+    initApp();
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('appContainer').style.display = 'none';
+    document.getElementById('loginPage').style.display = '';
+    document.getElementById('loginPassword').value = '';
+    switchTab('dashboard');
+}
+
+// ===== NAVIGATION =====
+function switchTab(tabName) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+
+    if (tabName === 'dashboard') refreshDashboard();
+    if (tabName === 'activities') refreshActivitiesTable();
+    if (tabName === 'admin') refreshAdminPanel();
+    if (tabName === 'manage') refreshManagePage();
+    if (tabName === 'input') refreshInputForm();
+    if (tabName === 'report') refreshReportFilters();
+}
+
+// ===== TOAST =====
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const icons = { success: '✅', error: '❌', warning: '⚠️' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ===== INIT =====
+function initApp() {
+    refreshDashboard();
+    refreshInputForm();
+    populateAllDropdowns();
+}
+
+function populateAllDropdowns() {
+    const data = getData();
+
+    // Department dropdowns
+    const deptSelects = ['actDepartment', 'filterDept', 'officeDeptSelect', 'staffDeptSelect', 'reportDept'];
+    deptSelects.forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const currentVal = sel.value;
+        const firstOption = sel.options[0].outerHTML;
+        sel.innerHTML = firstOption;
+        data.departments.forEach(d => {
+            sel.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+        });
+        sel.value = currentVal;
+    });
+}
+
+// ===== DEPARTMENT MANAGEMENT =====
+function addDepartment() {
+    const name = document.getElementById('newDeptName').value.trim();
+    if (!name) return showToast('សូមបញ្ចូលឈ្មោះនាយកដ្ឋាន!', 'warning');
+
+    const data = getData();
+    data.departments.push({ id: generateId(), name });
+    saveData(data);
+    document.getElementById('newDeptName').value = '';
+    showToast(`បានបន្ថែមនាយកដ្ឋាន "${name}" ជោគជ័យ!`);
+    refreshManagePage();
+    populateAllDropdowns();
+}
+
+function deleteDepartment(id) {
+    if (!confirm('តើអ្នកប្រាកដថាចង់លុបនាយកដ្ឋាននេះ?')) return;
+    const data = getData();
+    data.departments = data.departments.filter(d => d.id !== id);
+    data.offices = data.offices.filter(o => o.departmentId !== id);
+    data.staff = data.staff.filter(s => s.departmentId !== id);
+    data.activities = data.activities.filter(a => a.departmentId !== id);
+    saveData(data);
+    showToast('បានលុបនាយកដ្ឋានជោគជ័យ!');
+    refreshManagePage();
+    populateAllDropdowns();
+}
+
+// ===== OFFICE MANAGEMENT =====
+function addOffice() {
+    const deptId = document.getElementById('officeDeptSelect').value;
+    const name = document.getElementById('newOfficeName').value.trim();
+    if (!deptId) return showToast('សូមជ្រើសរើសនាយកដ្ឋាន!', 'warning');
+    if (!name) return showToast('សូមបញ្ចូលឈ្មោះការិយាល័យ!', 'warning');
+
+    const data = getData();
+    data.offices.push({ id: generateId(), name, departmentId: deptId });
+    saveData(data);
+    document.getElementById('newOfficeName').value = '';
+    showToast(`បានបន្ថែមការិយាល័យ "${name}" ជោគជ័យ!`);
+    renderOfficeList();
+}
+
+function deleteOffice(id) {
+    if (!confirm('តើអ្នកប្រាកដថាចង់លុបការិយាល័យនេះ?')) return;
+    const data = getData();
+    data.offices = data.offices.filter(o => o.id !== id);
+    data.staff = data.staff.filter(s => s.officeId !== id);
+    data.activities = data.activities.filter(a => a.officeId !== id);
+    saveData(data);
+    showToast('បានលុបការិយាល័យជោគជ័យ!');
+    renderOfficeList();
+}
+
+function renderOfficeList() {
+    const data = getData();
+    const deptId = document.getElementById('officeDeptSelect').value;
+    const list = document.getElementById('officeList');
+    const offices = data.offices.filter(o => o.departmentId === deptId);
+
+    if (!deptId || offices.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:15px;">គ្មានការិយាល័យ</p>';
+        return;
+    }
+
+    list.innerHTML = offices.map(o => `
+        <div class="tree-item">
+            <div class="tree-item-header">
+                <h4>🏢 ${o.name}</h4>
+                <button class="btn btn-danger btn-sm" onclick="deleteOffice('${o.id}')">🗑️ លុប</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== STAFF MANAGEMENT =====
+function updateStaffOfficeSelect() {
+    const data = getData();
+    const deptId = document.getElementById('staffDeptSelect').value;
+    const sel = document.getElementById('staffOfficeSelect');
+    sel.innerHTML = '<option value="">-- ជ្រើសរើស --</option>';
+    data.offices.filter(o => o.departmentId === deptId).forEach(o => {
+        sel.innerHTML += `<option value="${o.id}">${o.name}</option>`;
+    });
+    renderStaffList();
+}
+
+function addStaff() {
+    const deptId = document.getElementById('staffDeptSelect').value;
+    const officeId = document.getElementById('staffOfficeSelect').value;
+    const name = document.getElementById('newStaffName').value.trim();
+    if (!deptId) return showToast('សូមជ្រើសរើសនាយកដ្ឋាន!', 'warning');
+    if (!officeId) return showToast('សូមជ្រើសរើសការិយាល័យ!', 'warning');
+    if (!name) return showToast('សូមបញ្ចូលឈ្មោះមន្ត្រី!', 'warning');
+
+    const data = getData();
+    data.staff.push({ id: generateId(), name, departmentId: deptId, officeId });
+    saveData(data);
+    document.getElementById('newStaffName').value = '';
+    showToast(`បានបន្ថែមមន្ត្រី "${name}" ជោគជ័យ!`);
+    renderStaffList();
+    populateAllDropdowns();
+}
+
+function deleteStaff(id) {
+    if (!confirm('តើអ្នកប្រាកដថាចង់លុបមន្ត្រីនេះ?')) return;
+    const data = getData();
+    data.staff = data.staff.filter(s => s.id !== id);
+    data.activities = data.activities.filter(a => a.staffId !== id);
+    saveData(data);
+    showToast('បានលុបមន្ត្រីជោគជ័យ!');
+    renderStaffList();
+}
+
+function renderStaffList() {
+    const data = getData();
+    const officeId = document.getElementById('staffOfficeSelect').value;
+    const list = document.getElementById('staffList');
+    const staffMembers = data.staff.filter(s => s.officeId === officeId);
+
+    if (!officeId || staffMembers.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:15px;">គ្មានមន្ត្រី</p>';
+        return;
+    }
+
+    list.innerHTML = staffMembers.map(s => `
+        <div class="tree-item">
+            <div class="tree-item-header">
+                <h4>👤 ${s.name}</h4>
+                <button class="btn btn-danger btn-sm" onclick="deleteStaff('${s.id}')">🗑️ លុប</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== INPUT FORM =====
+function refreshInputForm() {
+    populateAllDropdowns();
+}
+
+function updateOffices() {
+    const data = getData();
+    const deptId = document.getElementById('actDepartment').value;
+    const sel = document.getElementById('actOffice');
+    sel.innerHTML = '<option value="">-- ជ្រើសរើសការិយាល័យ --</option>';
+    data.offices.filter(o => o.departmentId === deptId).forEach(o => {
+        sel.innerHTML += `<option value="${o.id}">${o.name}</option>`;
+    });
+    document.getElementById('actStaff').innerHTML = '<option value="">-- ជ្រើសរើសមន្ត្រី --</option>';
+}
+
+function updateStaff() {
+    const data = getData();
+    const officeId = document.getElementById('actOffice').value;
+    const sel = document.getElementById('actStaff');
+    sel.innerHTML = '<option value="">-- ជ្រើសរើសមន្ត្រី --</option>';
+    data.staff.filter(s => s.officeId === officeId).forEach(s => {
+        sel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+    });
+}
+
+function submitActivity(e) {
+    e.preventDefault();
+    const data = getData();
+
+    const activity = {
+        id: generateId(),
+        date: document.getElementById('actDate').value,
+        departmentId: document.getElementById('actDepartment').value,
+        officeId: document.getElementById('actOffice').value,
+        staffId: document.getElementById('actStaff').value,
+        description: document.getElementById('actDescription').value.trim(),
+        weight: parseFloat(document.getElementById('actWeight').value),
+        percentage: parseFloat(document.getElementById('actPercentage').value),
+        note: document.getElementById('actNote').value.trim(),
+        createdAt: new Date().toISOString()
+    };
+
+    data.activities.push(activity);
+    saveData(data);
+    showToast('បានរក្សាទុកសកម្មភាពការងារជោគជ័យ!');
+    resetForm();
+}
+
+function resetForm() {
+    document.getElementById('activityForm').reset();
+    document.getElementById('actDate').valueAsDate = new Date();
+    document.getElementById('actOffice').innerHTML = '<option value="">-- ជ្រើសរើសការិយាល័យ --</option>';
+    document.getElementById('actStaff').innerHTML = '<option value="">-- ជ្រើសរើសមន្ត្រី --</option>';
+}
+
+// ===== DASHBOARD =====
+function refreshDashboard() {
+    const data = getData();
+
+    const stats = `
+        <div class="stat-card blue">
+            <div class="stat-icon">🏛️</div>
+            <div class="stat-value">${data.departments.length}</div>
+            <div class="stat-label">នាយកដ្ឋានសរុប</div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-icon">🏢</div>
+            <div class="stat-value">${data.offices.length}</div>
+            <div class="stat-label">ការិយាល័យសរុប</div>
+        </div>
+        <div class="stat-card orange">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value">${data.staff.length}</div>
+            <div class="stat-label">មន្ត្រីសរុប</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-icon">📋</div>
+            <div class="stat-value">${data.activities.length}</div>
+            <div class="stat-label">សកម្មភាពសរុប</div>
+        </div>
+        <div class="stat-card purple">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value">${data.activities.length > 0 ? (data.activities.reduce((s, a) => s + a.percentage, 0) / data.activities.length).toFixed(1) + '%' : '0%'}</div>
+            <div class="stat-label">ភាគរយអនុវត្តមធ្យម</div>
+        </div>
+    `;
+    document.getElementById('dashboardStats').innerHTML = stats;
+
+    // Recent activities
+    const recent = data.activities.slice(-10).reverse();
+    const tbody = document.getElementById('recentActivities');
+
+    if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">📭 មិនទាន់មានសកម្មភាពការងារ</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = recent.map((a, i) => {
+        const dept = data.departments.find(d => d.id === a.departmentId);
+        const office = data.offices.find(o => o.id === a.officeId);
+        const staff = data.staff.find(s => s.id === a.staffId);
+        return `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${a.date}</td>
+                <td>${dept ? dept.name : '-'}</td>
+                <td>${office ? office.name : '-'}</td>
+                <td>${staff ? staff.name : '-'}</td>
+                <td>${a.description.substring(0, 50)}${a.description.length > 50 ? '...' : ''}</td>
+                <td>${a.weight}</td>
+                <td>
+                    <div class="percentage-display">
+                        ${a.percentage}%
+                        <div class="percentage-bar-mini">
+                            <div class="fill" style="width:${a.percentage}%;background:${a.percentage >= 80 ? 'var(--secondary)' : a.percentage >= 50 ? 'var(--warning)' : 'var(--accent)'}"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ===== ACTIVITIES TABLE =====
+function refreshActivitiesTable() {
+    populateAllDropdowns();
+    filterActivities();
+}
+
+function filterActivities() {
+    const data = getData();
+    const deptId = document.getElementById('filterDept').value;
+    const officeId = document.getElementById('filterOffice').value;
+    const staffId = document.getElementById('filterStaff').value;
+    const dateFrom = document.getElementById('filterDateFrom').value;
+    const dateTo = document.getElementById('filterDateTo').value;
+
+    // Update office and staff filter dropdowns
+    if (deptId) {
+        const officeSelect = document.getElementById('filterOffice');
+        const currentOffice = officeSelect.value;
+        officeSelect.innerHTML = '<option value="">ទាំងអស់</option>';
+        data.offices.filter(o => o.departmentId === deptId).forEach(o => {
+            officeSelect.innerHTML += `<option value="${o.id}">${o.name}</option>`;
+        });
+        officeSelect.value = currentOffice;
+    }
+
+    if (deptId || officeId) {
+        const staffSelect = document.getElementById('filterStaff');
+        const currentStaff = staffSelect.value;
+        staffSelect.innerHTML = '<option value="">ទាំងអស់</option>';
+        let filteredStaff = data.staff;
+        if (deptId) filteredStaff = filteredStaff.filter(s => s.departmentId === deptId);
+        if (officeId) filteredStaff = filteredStaff.filter(s => s.officeId === officeId);
+        filteredStaff.forEach(s => {
+            staffSelect.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+        });
+        staffSelect.value = currentStaff;
+    }
+
+    let activities = [...data.activities];
+    if (deptId) activities = activities.filter(a => a.departmentId === deptId);
+    if (officeId) activities = activities.filter(a => a.officeId === officeId);
+    if (staffId) activities = activities.filter(a => a.staffId === staffId);
+    if (dateFrom) activities = activities.filter(a => a.date >= dateFrom);
+    if (dateTo) activities = activities.filter(a => a.date <= dateTo);
+
+    activities.sort((a, b) => b.date.localeCompare(a.date));
+
+    const tbody = document.getElementById('activitiesTableBody');
+    if (activities.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-light);">📭 គ្មានសកម្មភាពការងារ</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = activities.map((a, i) => {
+        const dept = data.departments.find(d => d.id === a.departmentId);
+        const office = data.offices.find(o => o.id === a.officeId);
+        const staff = data.staff.find(s => s.id === a.staffId);
+        return `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${a.date}</td>
+                <td>${dept ? dept.name : '-'}</td>
+                <td>${office ? office.name : '-'}</td>
+                <td>${staff ? staff.name : '-'}</td>
+                <td>${a.description.substring(0, 60)}${a.description.length > 60 ? '...' : ''}</td>
+                <td>${a.weight}</td>
+                <td>
+                    <div class="percentage-display">
+                        ${a.percentage}%
+                        <div class="percentage-bar-mini">
+                            <div class="fill" style="width:${a.percentage}%;background:${a.percentage >= 80 ? 'var(--secondary)' : a.percentage >= 50 ? 'var(--warning)' : 'var(--accent)'}"></div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn btn-warning btn-sm" onclick="openEditModal('${a.id}')">✏️</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteActivity('${a.id}')">🗑️</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function deleteActivity(id) {
+    if (!confirm('តើអ្នកប្រាកដថាចង់លុបសកម្មភាពនេះ?')) return;
+    const data = getData();
+    data.activities = data.activities.filter(a => a.id !== id);
+    saveData(data);
+    showToast('បានលុបសកម្មភាពជោគជ័យ!');
+    filterActivities();
+}
+
+// ===== EDIT MODAL =====
+function openEditModal(id) {
+    const data = getData();
+    const activity = data.activities.find(a => a.id === id);
+    if (!activity) return;
+
+    editingActivityId = id;
+    document.getElementById('editDate').value = activity.date;
+    document.getElementById('editDescription').value = activity.description;
+    document.getElementById('editWeight').value = activity.weight;
+    document.getElementById('editPercentage').value = activity.percentage;
+    document.getElementById('editNote').value = activity.note || '';
+    document.getElementById('editModal').classList.add('show');
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.remove('show');
+    editingActivityId = null;
+}
+
+function saveEdit() {
+    if (!editingActivityId) return;
+    const data = getData();
+    const idx = data.activities.findIndex(a => a.id === editingActivityId);
+    if (idx === -1) return;
+
+    data.activities[idx].date = document.getElementById('editDate').value;
+    data.activities[idx].description = document.getElementById('editDescription').value;
+    data.activities[idx].weight = parseFloat(document.getElementById('editWeight').value);
+    data.activities[idx].percentage = parseFloat(document.getElementById('editPercentage').value);
+    data.activities[idx].note = document.getElementById('editNote').value;
+
+    saveData(data);
+    showToast('បានកែប្រែជោគជ័យ!');
+    closeEditModal();
+    filterActivities();
+}
+
+// ===== MANAGE PAGE =====
+function refreshManagePage() {
+    populateAllDropdowns();
+    renderDeptList();
+    renderOfficeList();
+    renderStaffList();
+}
+
+function renderDeptList() {
+    const data = getData();
+    const list = document.getElementById('deptList');
+
+    if (data.departments.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:15px;">គ្មាននាយកដ្ឋាន</p>';
+        return;
+    }
+
+    list.innerHTML = data.departments.map(d => {
+        const officeCount = data.offices.filter(o => o.departmentId === d.id).length;
+        const staffCount = data.staff.filter(s => s.departmentId === d.id).length;
+        return `
+            <div class="tree-item">
+                <div class="tree-item-header">
+                    <h4>🏛️ ${d.name} <span class="badge badge-blue">${officeCount} ការិយាល័យ</span> <span class="badge badge-green">${staffCount} មន្ត្រី</span></h4>
+                    <button class="btn btn-danger btn-sm" onclick="deleteDepartment('${d.id}')">🗑️ លុប</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ===== ADMIN PANEL =====
+let currentPeriod = 'weekly';
+
+function switchPeriod(period) {
+    currentPeriod = period;
+    document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`[data-period="${period}"]`).classList.add('active');
+    refreshAdminPanel();
+}
+
+function getDateRange(period) {
+    const now = new Date();
+    let start, end;
+
+    switch (period) {
+        case 'weekly':
+            const dayOfWeek = now.getDay();
+            start = new Date(now);
+            start.setDate(now.getDate() - dayOfWeek);
+            end = new Date(start);
+            end.setDate(start.getDate() + 6);
+            break;
+        case 'monthly':
+            start = new Date(now.getFullYear(), now.getMonth(), 1);
+            end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            break;
+        case 'quarterly':
+            const q = Math.floor(now.getMonth() / 3);
+            start = new Date(now.getFullYear(), q * 3, 1);
+            end = new Date(now.getFullYear(), q * 3 + 3, 0);
+            break;
+        case 'semiannual':
+            const h = now.getMonth() < 6 ? 0 : 6;
+            start = new Date(now.getFullYear(), h, 1);
+            end = new Date(now.getFullYear(), h + 6, 0);
+            break;
+        case 'annual':
+            start = new Date(now.getFullYear(), 0, 1);
+            end = new Date(now.getFullYear(), 11, 31);
+            break;
+    }
+
+    return {
+        start: start.toISOString().split('T')[0],
+        end: end.toISOString().split('T')[0]
+    };
+}
+
+function getPeriodLabel(period) {
+    const labels = {
+        weekly: '📅 ប្រចាំសប្ដាហ៍',
+        monthly: '🗓️ ប្រចាំខែ',
+        quarterly: '📊 ត្រីមាស',
+        semiannual: '📈 ឆមាស',
+        annual: '📆 ប្រចាំឆ្នាំ'
+    };
+    return labels[period] || period;
+}
+
+function refreshAdminPanel() {
+    const data = getData();
+    const range = getDateRange(currentPeriod);
+
+    // Filter activities by period
+    const periodActivities = data.activities.filter(a =>
+        a.date >= range.start && a.date <= range.end
+    );
+
+    // Calculate stats
+    const totalWeight = periodActivities.reduce((s, a) => s + a.weight, 0);
+    const avgPercentage = periodActivities.length > 0
+        ? (periodActivities.reduce((s, a) => s + a.percentage, 0) / periodActivities.length).toFixed(1)
+        : 0;
+
+    // Unique depts, offices, staff in period
+    const activeDepts = [...new Set(periodActivities.map(a => a.departmentId))];
+    const activeOffices = [...new Set(periodActivities.map(a => a.officeId))];
+    const activeStaff = [...new Set(periodActivities.map(a => a.staffId))];
+
+    // Summary Section
+    document.getElementById('adminSummary').innerHTML = `
+        <h3>${getPeriodLabel(currentPeriod)} (${range.start} ដល់ ${range.end})</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="value">${periodActivities.length}</div>
+                <div class="label">សកម្មភាពសរុប</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${activeDepts.length}</div>
+                <div class="label">នាយកដ្ឋាន</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${activeOffices.length}</div>
+                <div class="label">ការិយាល័យ</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${activeStaff.length}</div>
+                <div class="label">មន្ត្រី</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${totalWeight.toFixed(2)}</div>
+                <div class="label">មេគុណទម្ងាន់សរុប</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${avgPercentage}%</div>
+                <div class="label">ភាគរយមធ្យម</div>
+            </div>
+        </div>
+    `;
+
+    // Department Breakdown
+    const breakdown = document.getElementById('adminDeptBreakdown');
+    if (activeDepts.length === 0) {
+        breakdown.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><h3>គ្មានទិន្នន័យក្នុងរយៈពេលនេះ</h3><p>សូមបញ្ចូលសកម្មភាពការងារ</p></div>';
+    } else {
+        breakdown.innerHTML = activeDepts.map(deptId => {
+            const dept = data.departments.find(d => d.id === deptId);
+            const deptActivities = periodActivities.filter(a => a.departmentId === deptId);
+            const deptOffices = [...new Set(deptActivities.map(a => a.officeId))];
+            const deptStaff = [...new Set(deptActivities.map(a => a.staffId))];
+            const deptAvg = (deptActivities.reduce((s, a) => s + a.percentage, 0) / deptActivities.length).toFixed(1);
+            const deptTotalWeight = deptActivities.reduce((s, a) => s + a.weight, 0).toFixed(2);
+
+            let officeHtml = deptOffices.map(officeId => {
+                const office = data.offices.find(o => o.id === officeId);
+                const officeActivities = deptActivities.filter(a => a.officeId === officeId);
+                const officeStaff = [...new Set(officeActivities.map(a => a.staffId))];
+
+                let staffHtml = officeStaff.map(staffId => {
+                    const staff = data.staff.find(s => s.id === staffId);
+                    const staffActivities = officeActivities.filter(a => a.staffId === staffId);
+                    const staffAvg = (staffActivities.reduce((s, a) => s + a.percentage, 0) / staffActivities.length).toFixed(1);
+
+                    return `
+                        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:white;border-radius:6px;margin-bottom:5px;">
+                            <span>👤 ${staff ? staff.name : 'មិនស្គាល់'}</span>
+                            <span>
+                                <span class="badge badge-blue">${staffActivities.length} សកម្មភាព</span>
+                                <span class="badge ${staffAvg >= 80 ? 'badge-green' : staffAvg >= 50 ? 'badge-orange' : 'badge-red'}">${staffAvg}%</span>
+                            </span>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div style="margin-bottom:12px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-weight:600;">🏢 ${office ? office.name : 'មិនស្គាល់'}</span>
+                            <span class="badge badge-blue">${officeActivities.length} សកម្មភាព</span>
+                            <span class="badge badge-green">${officeStaff.length} មន្ត្រី</span>
+                        </div>
+                        <div style="padding-left:15px;">
+                            ${staffHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="tree-item">
+                    <div class="tree-item-header" style="margin-bottom:12px;">
+                        <h4>🏛️ ${dept ? dept.name : 'មិនស្គាល់'}
+                            <span class="badge badge-blue">${deptActivities.length} សកម្មភាព</span>
+                            <span class="badge badge-green">${deptOffices.length} ការិយាល័យ</span>
+                            <span class="badge badge-orange">${deptStaff.length} មន្ត្រី</span>
+                        </h4>
+                        <div>
+                            <span class="badge ${deptAvg >= 80 ? 'badge-green' : deptAvg >= 50 ? 'badge-orange' : 'badge-red'}">${deptAvg}% មធ្យម</span>
+                            <span class="badge badge-blue">ទម្ងាន់: ${deptTotalWeight}</span>
+                        </div>
+                    </div>
+                    <div class="tree-children">
+                        ${officeHtml}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Staff Performance Table
+    const staffTable = document.getElementById('adminStaffTable');
+    if (activeStaff.length === 0) {
+        staffTable.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">📭 គ្មានទិន្នន័យ</td></tr>';
+    } else {
+        let idx = 0;
+        staffTable.innerHTML = activeStaff.map(staffId => {
+            idx++;
+            const staff = data.staff.find(s => s.id === staffId);
+            const dept = staff ? data.departments.find(d => d.id === staff.departmentId) : null;
+            const office = staff ? data.offices.find(o => o.id === staff.officeId) : null;
+            const staffActivities = periodActivities.filter(a => a.staffId === staffId);
+            const totalW = staffActivities.reduce((s, a) => s + a.weight, 0).toFixed(2);
+            const avgP = (staffActivities.reduce((s, a) => s + a.percentage, 0) / staffActivities.length).toFixed(1);
+
+            let evaluation = '';
+            let evalBadge = '';
+            if (avgP >= 90) { evaluation = 'ល្អណាស់'; evalBadge = 'badge-green'; }
+            else if (avgP >= 80) { evaluation = 'ល្អ'; evalBadge = 'badge-green'; }
+            else if (avgP >= 60) { evaluation = 'មធ្យម'; evalBadge = 'badge-orange'; }
+            else if (avgP >= 40) { evaluation = 'ត្រូវកែលម្អ'; evalBadge = 'badge-orange'; }
+            else { evaluation = 'ខ្សោយ'; evalBadge = 'badge-red'; }
+
+            return `
+                <tr>
+                    <td>${idx}</td>
+                    <td>${dept ? dept.name : '-'}</td>
+                    <td>${office ? office.name : '-'}</td>
+                    <td>${staff ? staff.name : '-'}</td>
+                    <td>${staffActivities.length}</td>
+                    <td>${totalW}</td>
+                    <td>
+                        <div class="percentage-display">
+                            ${avgP}%
+                            <div class="percentage-bar-mini">
+                                <div class="fill" style="width:${avgP}%;background:${avgP >= 80 ? 'var(--secondary)' : avgP >= 50 ? 'var(--warning)' : 'var(--accent)'}"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge ${evalBadge}">${evaluation}</span></td>
+                </tr>
+            `;
+        }).join('');
+    }
+}
+
+// ===== REPORT =====
+function refreshReportFilters() {
+    populateAllDropdowns();
+    const range = getDateRange('monthly');
+    document.getElementById('reportFrom').value = range.start;
+    document.getElementById('reportTo').value = range.end;
+}
+
+function generateReport() {
+    const data = getData();
+    const period = document.getElementById('reportPeriod').value;
+    const deptId = document.getElementById('reportDept').value;
+    const dateFrom = document.getElementById('reportFrom').value;
+    const dateTo = document.getElementById('reportTo').value;
+
+    let activities = [...data.activities];
+    if (deptId) activities = activities.filter(a => a.departmentId === deptId);
+    if (dateFrom) activities = activities.filter(a => a.date >= dateFrom);
+    if (dateTo) activities = activities.filter(a => a.date <= dateTo);
+
+    activities.sort((a, b) => a.date.localeCompare(b.date));
+
+    const totalWeight = activities.reduce((s, a) => s + a.weight, 0);
+    const avgPercentage = activities.length > 0
+        ? (activities.reduce((s, a) => s + a.percentage, 0) / activities.length).toFixed(1)
+        : 0;
+    const uniqueDepts = [...new Set(activities.map(a => a.departmentId))];
+    const uniqueOffices = [...new Set(activities.map(a => a.officeId))];
+    const uniqueStaff = [...new Set(activities.map(a => a.staffId))];
+
+    let reportHtml = `
+        <div class="summary-section">
+            <h3>📊 របាយការណ៍ ${getPeriodLabel(period)}</h3>
+            <p style="opacity:0.9;margin-bottom:15px;">ពី ${dateFrom || 'ដើមដំបូង'} ដល់ ${dateTo || 'បច្ចុប្បន្ន'}</p>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="value">${activities.length}</div>
+                    <div class="label">សកម្មភាពសរុប</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value">${uniqueDepts.length}</div>
+                    <div class="label">នាយកដ្ឋាន</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value">${uniqueOffices.length}</div>
+                    <div class="label">ការិយាល័យ</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value">${uniqueStaff.length}</div>
+                    <div class="label">មន្ត្រី</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value">${totalWeight.toFixed(2)}</div>
+                    <div class="label">មេគុណទម្ងាន់សរុប</div>
+                </div>
+                <div class="summary-item">
+                    <div class="value">${avgPercentage}%</div>
+                    <div class="label">ភាគរយមធ្យម</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container" style="margin-top:20px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ល.រ</th>
+                        <th>កាលបរិច្ឆេទ</th>
+                        <th>នាយកដ្ឋាន</th>
+                        <th>ការិយាល័យ</th>
+                        <th>មន្ត្រី</th>
+                        <th>សកម្មភាពការងារ</th>
+                        <th>មេគុណទម្ងាន់</th>
+                        <th>ភាគរយ (%)</th>
+                        <th>កំណត់ចំណាំ</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    if (activities.length === 0) {
+        reportHtml += '<tr><td colspan="9" style="text-align:center;padding:40px;">គ្មានទិន្នន័យ</td></tr>';
+    } else {
+        activities.forEach((a, i) => {
+            const dept = data.departments.find(d => d.id === a.departmentId);
+            const office = data.offices.find(o => o.id === a.officeId);
+            const staff = data.staff.find(s => s.id === a.staffId);
+            reportHtml += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${a.date}</td>
+                    <td>${dept ? dept.name : '-'}</td>
+                    <td>${office ? office.name : '-'}</td>
+                    <td>${staff ? staff.name : '-'}</td>
+                    <td>${a.description}</td>
+                    <td>${a.weight}</td>
+                    <td>${a.percentage}%</td>
+                    <td>${a.note || '-'}</td>
+                </tr>
+            `;
+        });
+    }
+
+    // Summary by staff
+    reportHtml += `
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="margin-top:25px;color:var(--primary);">📊 សង្ខេបតាមមន្ត្រី</h3>
+        <div class="table-container" style="margin-top:10px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ល.រ</th>
+                        <th>នាយកដ្ឋាន</th>
+                        <th>ការិយាល័យ</th>
+                        <th>ឈ្មោះមន្ត្រី</th>
+                        <th>សកម្មភាពសរុប</th>
+                        <th>មេគុណទម្ងាន់សរុប</th>
+                        <th>ភាគរយមធ្យម</th>
+                        <th>វាយតម្លៃ</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    let idx = 0;
+    uniqueStaff.forEach(staffId => {
+        idx++;
+        const staff = data.staff.find(s => s.id === staffId);
+        const dept = staff ? data.departments.find(d => d.id === staff.departmentId) : null;
+        const office = staff ? data.offices.find(o => o.id === staff.officeId) : null;
+        const staffActs = activities.filter(a => a.staffId === staffId);
+        const tw = staffActs.reduce((s, a) => s + a.weight, 0).toFixed(2);
+        const ap = (staffActs.reduce((s, a) => s + a.percentage, 0) / staffActs.length).toFixed(1);
+
+        let ev = '', eb = '';
+        if (ap >= 90) { ev = 'ល្អណាស់'; eb = 'badge-green'; }
+        else if (ap >= 80) { ev = 'ល្អ'; eb = 'badge-green'; }
+        else if (ap >= 60) { ev = 'មធ្យម'; eb = 'badge-orange'; }
+        else if (ap >= 40) { ev = 'ត្រូវកែលម្អ'; eb = 'badge-orange'; }
+        else { ev = 'ខ្សោយ'; eb = 'badge-red'; }
+
+        reportHtml += `
+            <tr>
+                <td>${idx}</td>
+                <td>${dept ? dept.name : '-'}</td>
+                <td>${office ? office.name : '-'}</td>
+                <td>${staff ? staff.name : '-'}</td>
+                <td>${staffActs.length}</td>
+                <td>${tw}</td>
+                <td>${ap}%</td>
+                <td><span class="badge ${eb}">${ev}</span></td>
+            </tr>
+        `;
+    });
+
+    reportHtml += '</tbody></table></div>';
+
+    document.getElementById('reportContent').innerHTML = reportHtml;
+    document.getElementById('reportActions').style.display = 'flex';
+}
+
+function printReport() {
+    document.getElementById('printDate').textContent = `បោះពុម្ពថ្ងៃទី: ${new Date().toLocaleDateString('km-KH')} | ${new Date().toLocaleTimeString('km-KH')}`;
+    window.print();
+}
+
+function exportCSV() {
+    const data = getData();
+    const period = document.getElementById('reportPeriod').value;
+    const deptId = document.getElementById('reportDept').value;
+    const dateFrom = document.getElementById('reportFrom').value;
+    const dateTo = document.getElementById('reportTo').value;
+
+    let activities = [...data.activities];
+    if (deptId) activities = activities.filter(a => a.departmentId === deptId);
+    if (dateFrom) activities = activities.filter(a => a.date >= dateFrom);
+    if (dateTo) activities = activities.filter(a => a.date <= dateTo);
+
+    activities.sort((a, b) => a.date.localeCompare(b.date));
+
+    // BOM for UTF-8
+    let csv = '\uFEFF';
+    csv += 'ល.រ,កាលបរិច្ឆេទ,នាយកដ្ឋាន,ការិយាល័យ,មន្ត្រី,សកម្មភាពការងារ,មេគុណទម្ងាន់,ភាគរយ(%),កំណត់ចំណាំ\n';
+
+    activities.forEach((a, i) => {
+        const dept = data.departments.find(d => d.id === a.departmentId);
+        const office = data.offices.find(o => o.id === a.officeId);
+        const staff = data.staff.find(s => s.id === a.staffId);
+        csv += `${i+1},"${a.date}","${dept ? dept.name : ''}","${office ? office.name : ''}","${staff ? staff.name : ''}","${a.description.replace(/"/g, '""')}",${a.weight},${a.percentage},"${(a.note || '').replace(/"/g, '""')}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `របាយការណ៍_${period}_${dateFrom}_${dateTo}.csv`;
+    link.click();
+    showToast('បានទាញយកឯកសារ CSV ជោគជ័យ!');
+}
+
+// ===== STARTUP =====
+document.addEventListener('DOMContentLoaded', () => {
+    getData(); // Initialize data if not exists
+});
+</script>
+</body>
+</html>
