@@ -3,1343 +3,1514 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ប្រព័ន្ធត្រួតពិនិត្យ និងវាយតម្លៃការអនុវត្តការងាររបស់មន្ត្រី</title>
+<title>ប្រព័ន្ធតាមដាន និងត្រួតពិនិត្យការអនុវត្តការងារ</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Khmer',sans-serif;background:#f0f2f5;color:#2c3e50;min-height:100vh;}
-:root{--primary:#1a5276;--primary-light:#2980b9;--green:#27ae60;--orange:#f39c12;--red:#e74c3c;--bg:#f0f2f5;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,0.08);--radius:12px;}
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --secondary: #27ae60;
+  --secondary-light: #2ecc71;
+  --accent: #e74c3c;
+  --warning: #f39c12;
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --border: #e0e0e0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans Khmer',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
 
-/* LOGIN */
-.login-container{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);padding:20px;}
-.login-box{background:var(--white);border-radius:20px;padding:40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;animation:fadeUp .5s ease;}
-.login-box h1{color:var(--primary);font-size:1.5rem;margin-bottom:8px;}
-.login-box p{color:#7f8c8d;margin-bottom:24px;font-size:.9rem;}
-.login-box .logo-icon{font-size:3rem;margin-bottom:12px;}
-.login-box input{width:100%;padding:14px 16px;border:2px solid #e0e0e0;border-radius:10px;font-size:1rem;font-family:inherit;margin-bottom:14px;transition:.3s;}
-.login-box input:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(41,128,185,.15);}
-.login-box button{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:1.05rem;font-family:inherit;cursor:pointer;font-weight:600;transition:.3s;}
-.login-box button:hover{background:var(--primary-light);transform:translateY(-1px);}
-.login-error{color:var(--red);font-size:.85rem;margin-bottom:10px;display:none;}
+/* Animations */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideIn { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scaleIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
+@keyframes toastIn { from{opacity:0;transform:translateX(100%)} to{opacity:1;transform:translateX(0)} }
+@keyframes toastOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(100%)} }
+.fade-in { animation: fadeIn 0.4s ease; }
+.slide-in { animation: slideIn 0.4s ease; }
 
-/* MAIN APP */
-.app-container{display:none;}
-.top-bar{background:var(--primary);color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
-.top-bar h1{font-size:1.1rem;font-weight:600;}
-.top-bar-right{display:flex;align-items:center;gap:12px;}
-.top-bar-right span{font-size:.85rem;opacity:.9;}
-.btn-logout{background:rgba(255,255,255,.15);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem;transition:.3s;}
-.btn-logout:hover{background:rgba(255,255,255,.3);}
+/* Login Page */
+#loginPage {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #1a5276 0%, #2980b9 50%, #27ae60 100%);
+  padding: 20px;
+}
+.login-card {
+  background:white; border-radius:20px; padding:50px 40px; width:100%; max-width:420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: scaleIn 0.5s ease;
+  text-align:center;
+}
+.login-card .logo { font-size:60px; margin-bottom:10px; }
+.login-card h1 { font-size:22px; color:var(--primary); margin-bottom:5px; font-weight:700; }
+.login-card p { color:var(--text-light); margin-bottom:30px; font-size:14px; }
+.login-card .input-group { margin-bottom:18px; text-align:left; }
+.login-card .input-group label { display:block; margin-bottom:6px; font-weight:600; color:var(--text); font-size:14px; }
+.login-card .input-group input {
+  width:100%; padding:12px 16px; border:2px solid var(--border); border-radius:10px;
+  font-size:15px; font-family:inherit; transition:border-color 0.3s;
+}
+.login-card .input-group input:focus { outline:none; border-color:var(--primary-light); }
+.login-btn {
+  width:100%; padding:14px; background:var(--primary); color:white; border:none;
+  border-radius:10px; font-size:16px; font-family:inherit; font-weight:600;
+  cursor:pointer; transition:all 0.3s; margin-top:10px;
+}
+.login-btn:hover { background:var(--primary-light); transform:translateY(-2px); box-shadow:0 5px 20px rgba(26,82,118,0.4); }
+.login-error { color:var(--accent); font-size:13px; margin-top:10px; display:none; }
 
-/* TABS */
-.tab-nav{display:flex;background:var(--white);border-bottom:2px solid #e8e8e8;overflow-x:auto;padding:0 12px;position:sticky;top:52px;z-index:99;}
-.tab-nav button{flex-shrink:0;padding:14px 20px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:.9rem;color:#7f8c8d;border-bottom:3px solid transparent;transition:.3s;white-space:nowrap;}
-.tab-nav button.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600;}
-.tab-nav button:hover{color:var(--primary);background:#f7f9fc;}
-.tab-content{display:none;padding:20px;max-width:1300px;margin:0 auto;animation:fadeUp .3s ease;}
-.tab-content.active{display:block;}
+/* App Container */
+#appPage { display:none; }
 
-/* CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;}
-.stat-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border-left:4px solid var(--primary);transition:.3s;}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.12);}
-.stat-card .stat-icon{font-size:2rem;margin-bottom:8px;}
-.stat-card .stat-value{font-size:1.8rem;font-weight:700;color:var(--primary);}
-.stat-card .stat-label{font-size:.85rem;color:#7f8c8d;margin-top:4px;}
-.stat-card:nth-child(2){border-left-color:var(--green);}
-.stat-card:nth-child(2) .stat-value{color:var(--green);}
-.stat-card:nth-child(3){border-left-color:var(--orange);}
-.stat-card:nth-child(3) .stat-value{color:var(--orange);}
-.stat-card:nth-child(4){border-left-color:var(--red);}
-.stat-card:nth-child(4) .stat-value{color:var(--red);}
-.stat-card:nth-child(5){border-left-color:#8e44ad;}
-.stat-card:nth-child(5) .stat-value{color:#8e44ad;}
+/* Header */
+.app-header {
+  background:var(--primary); color:white; padding:0 24px; display:flex;
+  align-items:center; justify-content:space-between; height:60px;
+  position:sticky; top:0; z-index:100; box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+.app-header .header-left { display:flex; align-items:center; gap:12px; }
+.app-header .header-left h1 { font-size:17px; font-weight:600; }
+.app-header .header-right { display:flex; align-items:center; gap:16px; }
+.app-header .user-info { font-size:14px; display:flex; align-items:center; gap:6px; }
+.logout-btn {
+  background:rgba(255,255,255,0.15); color:white; border:none; padding:8px 16px;
+  border-radius:8px; font-family:inherit; font-size:13px; cursor:pointer; transition:0.3s;
+}
+.logout-btn:hover { background:rgba(255,255,255,0.3); }
 
-/* FORM */
-.form-card{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
-.form-card h2{color:var(--primary);margin-bottom:20px;font-size:1.2rem;display:flex;align-items:center;gap:8px;}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-.form-group{margin-bottom:4px;}
-.form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.9rem;color:#34495e;}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.95rem;transition:.3s;background:#fff;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(41,128,185,.12);}
-.form-group textarea{resize:vertical;min-height:70px;}
-.form-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
+/* Navigation Tabs */
+.nav-tabs {
+  background:white; display:flex; overflow-x:auto; border-bottom:2px solid var(--border);
+  padding:0 16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  position:sticky; top:60px; z-index:99;
+}
+.nav-tabs button {
+  background:none; border:none; padding:14px 20px; font-family:inherit;
+  font-size:14px; color:var(--text-light); cursor:pointer; white-space:nowrap;
+  border-bottom:3px solid transparent; transition:all 0.3s; font-weight:500;
+}
+.nav-tabs button:hover { color:var(--primary); background:rgba(26,82,118,0.05); }
+.nav-tabs button.active { color:var(--primary); border-bottom-color:var(--primary); font-weight:600; }
 
-/* BUTTONS */
-.btn{padding:10px 22px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.9rem;font-weight:500;transition:.3s;display:inline-flex;align-items:center;gap:6px;}
-.btn:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.15);}
-.btn-primary{background:var(--primary);color:#fff;}
-.btn-primary:hover{background:var(--primary-light);}
-.btn-success{background:var(--green);color:#fff;}
-.btn-success:hover{background:#219a52;}
-.btn-warning{background:var(--orange);color:#fff;}
-.btn-warning:hover{background:#e67e22;}
-.btn-danger{background:var(--red);color:#fff;}
-.btn-danger:hover{background:#c0392b;}
-.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary);}
-.btn-outline:hover{background:var(--primary);color:#fff;}
-.btn-sm{padding:6px 14px;font-size:.8rem;}
+/* Main Content */
+.main-content { max-width:1300px; margin:0 auto; padding:24px; }
+.tab-content { display:none; animation:fadeIn 0.4s ease; }
+.tab-content.active { display:block; }
 
-/* TABLE */
-.table-container{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow-x:auto;margin-bottom:20px;}
-.table-header{padding:16px 20px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
-.table-header h3{color:var(--primary);font-size:1.05rem;}
-table{width:100%;border-collapse:collapse;min-width:700px;}
-thead{background:#f7f9fc;}
-th{padding:12px 14px;text-align:left;font-weight:600;color:var(--primary);font-size:.85rem;border-bottom:2px solid #e8e8e8;white-space:nowrap;}
-td{padding:11px 14px;border-bottom:1px solid #f0f0f0;font-size:.88rem;}
-tr:hover{background:#f7f9fc;}
-.badge{padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-block;}
-.badge-excellent{background:#d5f4e6;color:#1a7a4c;}
-.badge-good{background:#d4efdf;color:#1e8449;}
-.badge-average{background:#fef3cd;color:#856404;}
-.badge-improve{background:#fde8d0;color:#a04000;}
-.badge-weak{background:#fadbd8;color:#922b21;}
+/* Cards */
+.card {
+  background:var(--card); border-radius:var(--radius); padding:24px;
+  box-shadow:var(--shadow); margin-bottom:20px;
+}
+.card h2 { font-size:18px; color:var(--primary); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.card h3 { font-size:16px; color:var(--text); margin-bottom:12px; }
 
-/* PROGRESS */
-.progress-bar{background:#e8e8e8;border-radius:10px;height:22px;overflow:hidden;position:relative;}
-.progress-fill{height:100%;border-radius:10px;transition:width .6s ease;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:600;min-width:30px;}
+/* Stats Grid */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:24px; }
+.stat-card {
+  background:white; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);
+  border-left:4px solid var(--primary); animation:fadeIn 0.4s ease;
+}
+.stat-card.green { border-left-color:var(--secondary); }
+.stat-card.orange { border-left-color:var(--warning); }
+.stat-card.red { border-left-color:var(--accent); }
+.stat-card .stat-label { font-size:13px; color:var(--text-light); margin-bottom:6px; }
+.stat-card .stat-value { font-size:28px; font-weight:700; color:var(--primary); }
+.stat-card.green .stat-value { color:var(--secondary); }
+.stat-card.orange .stat-value { color:var(--warning); }
+.stat-card.red .stat-value { color:var(--accent); }
 
-/* FILTERS */
-.filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-end;}
-.filter-bar .form-group{margin-bottom:0;min-width:160px;}
-.filter-bar .form-group label{font-size:.8rem;}
-.filter-bar input,.filter-bar select{padding:9px 12px;font-size:.85rem;}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center;padding:20px;}
-.modal-overlay.show{display:flex;}
-.modal{background:var(--white);border-radius:16px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:fadeUp .3s ease;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.modal h2{color:var(--primary);margin-bottom:20px;font-size:1.15rem;}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
-
-/* TOAST */
-.toast-container{position:fixed;top:70px;right:20px;z-index:2000;}
-.toast{padding:14px 20px;border-radius:10px;color:#fff;margin-bottom:10px;font-size:.9rem;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:slideIn .3s ease;display:flex;align-items:center;gap:8px;max-width:380px;}
-.toast-success{background:var(--green);}
-.toast-error{background:var(--red);}
-.toast-info{background:var(--primary-light);}
-
-/* SECTION */
-.section-card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
-.section-card h3{color:var(--primary);margin-bottom:16px;font-size:1.05rem;border-bottom:2px solid #eee;padding-bottom:10px;}
-.mgmt-list{list-style:none;}
-.mgmt-list li{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #f0f0f0;transition:.2s;}
-.mgmt-list li:hover{background:#f7f9fc;}
-.mgmt-add{display:flex;gap:8px;margin-bottom:12px;}
-.mgmt-add input{flex:1;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;}
-.mgmt-add input:focus{border-color:var(--primary-light);outline:none;}
-
-/* PERIOD TABS */
-.period-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
-.period-tabs button{padding:8px 18px;border:2px solid #ddd;background:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem;transition:.3s;}
-.period-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary);}
-
-/* PRINT */
-@media print{
-  .top-bar,.tab-nav,.btn,.filter-bar,.form-actions,.mgmt-add,.toast-container,.no-print{display:none!important;}
-  .tab-content{display:block!important;padding:10px;}
-  .app-container{display:block!important;}
-  .login-container{display:none!important;}
-  body{background:#fff;font-size:11pt;}
-  .table-container,.form-card,.section-card,.stat-card{box-shadow:none;break-inside:avoid;}
-  table{min-width:auto;}
-  @page{margin:1.5cm;}
+/* Form Styles */
+.form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+.form-group { margin-bottom:16px; }
+.form-group label { display:block; font-weight:600; margin-bottom:6px; font-size:14px; color:var(--text); }
+.form-group input, .form-group textarea, .form-group select {
+  width:100%; padding:10px 14px; border:2px solid var(--border); border-radius:8px;
+  font-family:inherit; font-size:14px; transition:border-color 0.3s; background:white;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline:none; border-color:var(--primary-light);
+}
+.form-group textarea { resize:vertical; min-height:80px; }
+.form-group input:disabled, .form-group textarea:disabled {
+  background:#f5f5f5; cursor:not-allowed;
 }
 
-/* ANIMATION */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .top-bar{padding:10px 14px;}
-  .top-bar h1{font-size:.9rem;}
-  .tab-nav button{padding:10px 14px;font-size:.8rem;}
-  .tab-content{padding:14px;}
-  .stats-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
-  .stat-card{padding:14px;}
-  .stat-card .stat-value{font-size:1.4rem;}
-  .form-grid{grid-template-columns:1fr;}
-  .filter-bar{flex-direction:column;}
-  .filter-bar .form-group{min-width:100%;}
-  .modal{padding:20px;margin:10px;}
+/* Buttons */
+.btn {
+  padding:10px 24px; border:none; border-radius:8px; font-family:inherit;
+  font-size:14px; font-weight:600; cursor:pointer; transition:all 0.3s;
+  display:inline-flex; align-items:center; gap:6px;
 }
+.btn-primary { background:var(--primary); color:white; }
+.btn-primary:hover { background:var(--primary-light); transform:translateY(-1px); }
+.btn-success { background:var(--secondary); color:white; }
+.btn-success:hover { background:var(--secondary-light); transform:translateY(-1px); }
+.btn-danger { background:var(--accent); color:white; }
+.btn-danger:hover { background:#c0392b; }
+.btn-warning { background:var(--warning); color:white; }
+.btn-warning:hover { background:#e67e22; }
+.btn-outline {
+  background:transparent; color:var(--primary); border:2px solid var(--primary);
+}
+.btn-outline:hover { background:var(--primary); color:white; }
+.btn-sm { padding:6px 14px; font-size:12px; }
+.btn:disabled { opacity:0.5; cursor:not-allowed; transform:none !important; }
+.btn-group { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+
+/* Table */
+.table-wrap { overflow-x:auto; margin-top:12px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+thead th {
+  background:var(--primary); color:white; padding:12px 10px; text-align:left;
+  font-weight:600; white-space:nowrap; position:sticky; top:0;
+}
+tbody td { padding:10px; border-bottom:1px solid var(--border); }
+tbody tr:hover { background:rgba(26,82,118,0.04); }
+tbody tr:nth-child(even) { background:rgba(0,0,0,0.02); }
+
+/* Progress Bar */
+.progress-bar {
+  width:100%; height:8px; background:#e0e0e0; border-radius:4px; overflow:hidden;
+}
+.progress-bar .fill {
+  height:100%; border-radius:4px; transition:width 0.5s ease;
+}
+.progress-bar .fill.green { background:var(--secondary); }
+.progress-bar .fill.orange { background:var(--warning); }
+.progress-bar .fill.red { background:var(--accent); }
+
+/* Badge */
+.badge {
+  display:inline-block; padding:3px 10px; border-radius:20px; font-size:12px;
+  font-weight:600; white-space:nowrap;
+}
+.badge-excellent { background:#d5f5e3; color:#1e8449; }
+.badge-good { background:#d4efdf; color:#27ae60; }
+.badge-average { background:#fef9e7; color:#f39c12; }
+.badge-improve { background:#fdebd0; color:#e67e22; }
+.badge-poor { background:#fadbd8; color:#e74c3c; }
+
+/* Entry Count */
+.entry-count {
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  color:white; padding:14px 20px; border-radius:10px; margin-bottom:20px;
+  display:flex; align-items:center; justify-content:space-between; font-size:15px;
+}
+.entry-count .count-bar { width:200px; height:10px; background:rgba(255,255,255,0.3); border-radius:5px; overflow:hidden; }
+.entry-count .count-bar .fill { height:100%; background:white; border-radius:5px; transition:width 0.5s; }
+
+/* Toast */
+.toast-container { position:fixed; top:80px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px; }
+.toast {
+  padding:14px 24px; border-radius:10px; color:white; font-size:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2); animation:toastIn 0.4s ease;
+  display:flex; align-items:center; gap:10px; min-width:280px;
+}
+.toast.success { background:var(--secondary); }
+.toast.error { background:var(--accent); }
+.toast.warning { background:var(--warning); }
+.toast.removing { animation:toastOut 0.3s ease forwards; }
+
+/* Modal */
+.modal-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);
+  z-index:200; display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.active { display:flex; }
+.modal {
+  background:white; border-radius:16px; width:100%; max-width:600px; max-height:90vh;
+  overflow-y:auto; animation:scaleIn 0.3s ease; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-header {
+  padding:20px 24px; border-bottom:1px solid var(--border); display:flex;
+  align-items:center; justify-content:space-between;
+}
+.modal-header h2 { font-size:18px; color:var(--primary); }
+.modal-close {
+  background:none; border:none; font-size:24px; cursor:pointer; color:var(--text-light);
+  width:36px; height:36px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; transition:0.3s;
+}
+.modal-close:hover { background:#f0f0f0; color:var(--text); }
+.modal-body { padding:24px; }
+.modal-footer { padding:16px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; }
+
+/* Period Tabs (Admin Panel) */
+.period-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.period-tab {
+  padding:8px 18px; border:2px solid var(--border); border-radius:20px; background:white;
+  font-family:inherit; font-size:13px; cursor:pointer; transition:0.3s; font-weight:500;
+}
+.period-tab:hover { border-color:var(--primary-light); color:var(--primary); }
+.period-tab.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+/* Filters */
+.filter-bar {
+  display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:20px;
+  padding:16px; background:#f8f9fa; border-radius:10px;
+}
+.filter-bar .form-group { margin-bottom:0; min-width:150px; }
+
+/* Settings */
+.settings-section { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+.settings-section:last-child { border-bottom:none; }
+
+/* User breakdown */
+.user-card {
+  background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:12px;
+  border-left:4px solid var(--primary);
+}
+.user-card-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;
+}
+.user-card-header h4 { font-size:15px; color:var(--primary); }
+
+/* Print */
+@media print {
+  .app-header, .nav-tabs, .btn, .filter-bar, .period-tabs, .logout-btn, .no-print { display:none !important; }
+  .main-content { padding:0; max-width:100%; }
+  .card { box-shadow:none; border:1px solid #ddd; break-inside:avoid; }
+  .tab-content { display:block !important; }
+  body { background:white; }
+  table { font-size:11px; }
+  thead th { background:#333 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+
+/* Responsive */
+@media (max-width:768px) {
+  .app-header { padding:0 12px; }
+  .app-header .header-left h1 { font-size:14px; }
+  .main-content { padding:12px; }
+  .stats-grid { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+  .form-grid { grid-template-columns:1fr; }
+  .nav-tabs button { padding:12px 14px; font-size:13px; }
+  .login-card { padding:30px 24px; }
+  .filter-bar { flex-direction:column; }
+  .stat-card .stat-value { font-size:22px; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#f1f1f1; }
+::-webkit-scrollbar-thumb { background:#bbb; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#999; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-container" id="loginScreen">
-  <div class="login-box">
-    <div class="logo-icon">📊</div>
-    <h1>ប្រព័ន្ធត្រួតពិនិត្យ និងវាយតម្លៃ</h1>
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="logo">📊</div>
+    <h1>ប្រព័ន្ធតាមដាន និងត្រួតពិនិត្យ</h1>
     <p>ការអនុវត្តការងាររបស់មន្ត្រី</p>
-    <div class="login-error" id="loginError">ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ!</div>
-    <input type="text" id="loginUser" placeholder="ឈ្មោះអ្នកប្រើប្រាស់">
-    <input type="password" id="loginPass" placeholder="ពាក្យសម្ងាត់">
-    <button onclick="doLogin()">🔐 ចូលប្រើប្រាស់</button>
+    <div class="input-group">
+      <label>👤 ឈ្មោះអ្នកប្រើប្រាស់</label>
+      <input type="text" id="loginUser" placeholder="បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label>🔒 លេខសម្ងាត់</label>
+      <input type="password" id="loginPass" placeholder="បញ្ចូលលេខសម្ងាត់">
+    </div>
+    <button class="login-btn" onclick="doLogin()">🔑 ចូលប្រើប្រាស់</button>
+    <div class="login-error" id="loginError">❌ ឈ្មោះអ្នកប្រើប្រាស់ ឬលេខសម្ងាត់មិនត្រឹមត្រូវ</div>
   </div>
 </div>
 
-<!-- MAIN APPLICATION -->
-<div class="app-container" id="appContainer">
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <h1>📊 ប្រព័ន្ធត្រួតពិនិត្យ និងវាយតម្លៃការអនុវត្តការងារ</h1>
-    <div class="top-bar-right">
-      <span id="currentUserDisplay">👤 Admin</span>
-      <button class="btn-logout" onclick="doLogout()">🚪 ចាកចេញ</button>
+<!-- APP PAGE -->
+<div id="appPage">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <span style="font-size:24px">📊</span>
+      <h1>ប្រព័ន្ធតាមដាន និងត្រួតពិនិត្យ</h1>
     </div>
-  </div>
+    <div class="header-right">
+      <span class="user-info">👤 <span id="currentUserDisplay"></span></span>
+      <button class="logout-btn" onclick="doLogout()">🚪 ចាកចេញ</button>
+    </div>
+  </header>
 
-  <!-- TAB NAVIGATION -->
-  <div class="tab-nav" id="tabNav">
-    <button class="active" onclick="switchTab('dashboard',this)">📊 ផ្ទាំងគ្រប់គ្រង</button>
-    <button onclick="switchTab('dataentry',this)">📝 បញ្ចូលទិន្នន័យ</button>
-    <button onclick="switchTab('activities',this)">📋 សកម្មភាពការងារ</button>
-    <button class="admin-only" onclick="switchTab('admin',this)">🔒 ផ្ទាំង Admin</button>
-    <button class="admin-only" onclick="switchTab('management',this)">⚙️ គ្រប់គ្រង</button>
-    <button class="admin-only" onclick="switchTab('reports',this)">📄 របាយការណ៍</button>
-  </div>
+  <!-- Nav Tabs -->
+  <nav class="nav-tabs" id="navTabs"></nav>
 
-  <!-- TAB 1: DASHBOARD -->
-  <div class="tab-content active" id="tab-dashboard">
-    <div class="stats-grid" id="dashStats"></div>
-    <div class="table-container">
-      <div class="table-header">
-        <h3>📋 សកម្មភាពថ្មីៗ (ចុងក្រោយ ១០)</h3>
-      </div>
-      <table>
-        <thead><tr>
-          <th>កាលបរិច្ឆេទ</th><th>សកម្មភាព</th><th>សូចនាករ</th><th>ការិយាល័យ</th><th>មន្ត្រី</th><th>មេគុណទម្ងាន់</th><th>ភាគរយ</th><th>វាយតម្លៃ</th>
-        </tr></thead>
-        <tbody id="dashTable"></tbody>
-      </table>
-    </div>
-  </div>
+  <!-- Main Content -->
+  <div class="main-content">
 
-  <!-- TAB 2: DATA ENTRY -->
-  <div class="tab-content" id="tab-dataentry">
-    <div class="form-card">
-      <h2>📝 បញ្ចូលទិន្នន័យសកម្មភាពការងារ</h2>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>កាលបរិច្ឆេទ *</label>
-          <input type="date" id="entryDate">
+    <!-- Tab 1: Dashboard -->
+    <div class="tab-content" id="tabDashboard">
+      <div class="stats-grid" id="dashStats"></div>
+      <div class="card">
+        <h2>📋 សកម្មភាពថ្មីៗ (១០ ចុងក្រោយ)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>កាលបរិច្ឆេទ</th>
+              <th>សកម្មភាព</th>
+              <th>ការិយាល័យ</th>
+              <th>មន្ត្រី</th>
+              <th>ភាគរយ</th>
+              <th>អ្នកបញ្ចូល</th>
+            </tr></thead>
+            <tbody id="dashRecentTable"></tbody>
+          </table>
         </div>
-        <div class="form-group">
-          <label>សកម្មភាព *</label>
-          <select id="entryActivity"><option value="">-- ជ្រើសរើស --</option></select>
-        </div>
-        <div class="form-group">
-          <label>សូចនាករ *</label>
-          <input type="text" id="entryIndicator" placeholder="បញ្ចូលសូចនាករ">
-        </div>
-        <div class="form-group">
-          <label>ការិយាល័យទទួលបន្ទុក *</label>
-          <select id="entryOffice" onchange="populateStaffSelect()"><option value="">-- ជ្រើសរើស --</option></select>
-        </div>
-        <div class="form-group">
-          <label>ឈ្មោះមន្ត្រីទទួលបន្ទុក *</label>
-          <select id="entryStaff"><option value="">-- ជ្រើសរើស --</option></select>
-        </div>
-        <div class="form-group">
-          <label>មេគុណទម្ងាន់ *</label>
-          <input type="number" id="entryWeight" step="0.1" min="0" placeholder="1.0">
-        </div>
-      </div>
-      <div class="form-group" style="margin-top:16px;">
-        <label>លទ្ធផលដែលសម្រេចបាន *</label>
-        <textarea id="entryResult" placeholder="បរិយាយលទ្ធផលដែលសម្រេចបាន"></textarea>
-      </div>
-      <div class="form-grid" style="margin-top:12px;">
-        <div class="form-group">
-          <label>ភាគរយ (%) *</label>
-          <input type="number" id="entryPercent" min="0" max="100" placeholder="0-100">
-        </div>
-        <div class="form-group">
-          <label>កំណត់ចំណាំ</label>
-          <textarea id="entryNote" placeholder="កំណត់ចំណាំបន្ថែម (ស្រេចចិត្ត)"></textarea>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" onclick="saveEntry()">💾 រក្សាទុក</button>
-        <button class="btn btn-outline" onclick="clearEntryForm()">🔄 សម្អាត</button>
       </div>
     </div>
-  </div>
 
-  <!-- TAB 3: ACTIVITIES LIST -->
-  <div class="tab-content" id="tab-activities">
-    <div class="filter-bar no-print">
-      <div class="form-group">
-        <label>ស្វែងរក</label>
-        <input type="text" id="filterSearch" placeholder="ស្វែងរក..." oninput="renderActivitiesTable()">
+    <!-- Tab 2: Data Entry (Users only) -->
+    <div class="tab-content" id="tabEntry">
+      <div class="entry-count" id="entryCount">
+        <span id="entryCountText">អ្នកបានបញ្ចូល 0/50 សកម្មភាព</span>
+        <div class="count-bar"><div class="fill" id="entryCountBar" style="width:0%"></div></div>
       </div>
-      <div class="form-group">
-        <label>សកម្មភាព</label>
-        <select id="filterActivity" onchange="renderActivitiesTable()"><option value="">ទាំងអស់</option></select>
+      <div class="card" id="entryFormCard">
+        <h2>📝 បញ្ចូលសកម្មភាពការងារ</h2>
+        <form id="entryForm" onsubmit="saveEntry(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>📅 កាលបរិច្ឆេទ</label>
+              <input type="date" id="fDate" required>
+            </div>
+            <div class="form-group">
+              <label>🏢 ការិយាល័យទទួលបន្ទុក</label>
+              <input type="text" id="fOffice" placeholder="បញ្ចូលឈ្មោះការិយាល័យ..." required>
+            </div>
+            <div class="form-group">
+              <label>👤 ឈ្មោះមន្ត្រីទទួលបន្ទុក</label>
+              <input type="text" id="fStaff" placeholder="បញ្ចូលឈ្មោះមន្ត្រី..." required>
+            </div>
+            <div class="form-group">
+              <label>⚖️ មេគុណទម្ងាន់</label>
+              <input type="number" id="fWeight" step="0.01" min="0" placeholder="ឧ. 1.5" required>
+            </div>
+            <div class="form-group">
+              <label>📊 ភាគរយ (%)</label>
+              <input type="number" id="fPercent" min="0" max="100" placeholder="0 - 100" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>📝 សកម្មភាពការងារ</label>
+            <textarea id="fActivity" placeholder="បរិយាយអំពីសកម្មភាពការងារ..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>📏 សូចនាករ</label>
+            <input type="text" id="fIndicator" placeholder="បញ្ចូលសូចនាករ..." required>
+          </div>
+          <div class="form-group">
+            <label>✅ លទ្ធផលដែលសម្រេចបាន</label>
+            <textarea id="fResult" placeholder="បរិយាយអំពីលទ្ធផល..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>📝 កំណត់ចំណាំ</label>
+            <textarea id="fNote" placeholder="កំណត់ចំណាំ (ជាជម្រើស)..." style="min-height:50px"></textarea>
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-success" id="saveBtn">💾 រក្សាទុក</button>
+            <button type="button" class="btn btn-outline" onclick="resetForm()">🔄 សម្អាត</button>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label>ការិយាល័យ</label>
-        <select id="filterOffice" onchange="renderActivitiesTable()"><option value="">ទាំងអស់</option></select>
-      </div>
-      <div class="form-group">
-        <label>ចាប់ពី</label>
-        <input type="date" id="filterFrom" onchange="renderActivitiesTable()">
-      </div>
-      <div class="form-group">
-        <label>ដល់</label>
-        <input type="date" id="filterTo" onchange="renderActivitiesTable()">
+      <div class="card" id="entryFullMsg" style="display:none; text-align:center; padding:40px;">
+        <span style="font-size:48px">📦</span>
+        <h2 style="justify-content:center; margin-top:12px">ពេញហើយ!</h2>
+        <p style="color:var(--text-light); margin-top:8px">អ្នកបានបញ្ចូលសកម្មភាពគ្រប់ ៥០ ហើយ។ មិនអាចបន្ថែមបានទៀតទេ។</p>
       </div>
     </div>
-    <div class="table-container">
-      <div class="table-header">
-        <h3>📋 បញ្ជីសកម្មភាពការងារទាំងអស់</h3>
-        <span id="activityCount" style="font-size:.85rem;color:#7f8c8d;"></span>
-      </div>
-      <table>
-        <thead><tr>
-          <th>កាលបរិច្ឆេទ</th><th>សកម្មភាព</th><th>សូចនាករ</th><th>ការិយាល័យ</th><th>មន្ត្រី</th><th>មេគុណ</th><th>លទ្ធផល</th><th>ភាគរយ</th><th>វាយតម្លៃ</th><th class="no-print">សកម្មភាព</th>
-        </tr></thead>
-        <tbody id="activitiesTableBody"></tbody>
-      </table>
-    </div>
-  </div>
 
-  <!-- TAB 4: ADMIN PANEL -->
-  <div class="tab-content" id="tab-admin">
-    <div class="period-tabs" id="periodTabs">
-      <button class="active" onclick="switchPeriod('weekly',this)">📅 ប្រចាំសប្ដាហ៍</button>
-      <button onclick="switchPeriod('monthly',this)">📅 ប្រចាំខែ</button>
-      <button onclick="switchPeriod('quarterly',this)">📅 ប្រចាំត្រីមាស</button>
-      <button onclick="switchPeriod('semiannual',this)">📅 ប្រចាំឆមាស</button>
-      <button onclick="switchPeriod('annual',this)">📅 ប្រចាំឆ្នាំ</button>
-    </div>
-    <div class="stats-grid" id="adminStats"></div>
-    <div class="table-container">
-      <div class="table-header">
-        <h3>📊 តារាងវាយតម្លៃការអនុវត្តការងារ</h3>
+    <!-- Tab 3: My Activities / All Activities -->
+    <div class="tab-content" id="tabActivities">
+      <div class="card">
+        <h2 id="activitiesTitle">📋 សកម្មភាពរបស់ខ្ញុំ</h2>
+        <div class="filter-bar no-print">
+          <div class="form-group">
+            <label>📅 ចាប់ពី</label>
+            <input type="date" id="filterDateFrom">
+          </div>
+          <div class="form-group">
+            <label>📅 ដល់</label>
+            <input type="date" id="filterDateTo">
+          </div>
+          <div class="form-group" id="filterUserGroup" style="display:none">
+            <label>👤 អ្នកប្រើប្រាស់</label>
+            <select id="filterUser">
+              <option value="">ទាំងអស់</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="loadActivities()">🔍 ស្វែងរក</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>ល.រ</th>
+              <th>កាលបរិច្ឆេទ</th>
+              <th>សកម្មភាព</th>
+              <th>សូចនាករ</th>
+              <th>ការិយាល័យ</th>
+              <th>មន្ត្រី</th>
+              <th>ទម្ងាន់</th>
+              <th>លទ្ធផល</th>
+              <th>ភាគរយ</th>
+              <th>កំណត់ចំណាំ</th>
+              <th id="actColUser" style="display:none">អ្នកបញ្ចូល</th>
+              <th class="no-print">សកម្មភាព</th>
+            </tr></thead>
+            <tbody id="activitiesTable"></tbody>
+          </table>
+        </div>
+        <p id="activitiesEmpty" style="text-align:center;color:var(--text-light);padding:30px;display:none;">មិនមានទិន្នន័យ</p>
       </div>
-      <table>
-        <thead><tr>
-          <th>សកម្មភាព</th><th>ការិយាល័យ</th><th>មន្ត្រី</th><th>សូចនាករ</th><th>មេគុណមធ្យម</th><th>ភាគរយមធ្យម</th><th>ចំនួន</th><th>វាយតម្លៃ</th>
-        </tr></thead>
-        <tbody id="adminTableBody"></tbody>
-      </table>
     </div>
-  </div>
 
-  <!-- TAB 5: MANAGEMENT -->
-  <div class="tab-content" id="tab-management">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
-      <!-- Manage Activities -->
-      <div class="section-card">
-        <h3>📂 គ្រប់គ្រងសកម្មភាព</h3>
-        <div class="mgmt-add">
-          <input type="text" id="newActivityName" placeholder="ឈ្មោះសកម្មភាពថ្មី">
-          <button class="btn btn-primary btn-sm" onclick="addActivity()">➕</button>
+    <!-- Tab 4: Admin Panel -->
+    <div class="tab-content" id="tabAdmin">
+      <div class="card">
+        <h2>🔒 ផ្ទាំង Admin - សង្ខេបការអនុវត្ត</h2>
+        <div class="period-tabs" id="periodTabs">
+          <button class="period-tab active" onclick="setPeriod('week',this)">📅 ប្រចាំសប្ដាហ៍</button>
+          <button class="period-tab" onclick="setPeriod('month',this)">📅 ប្រចាំខែ</button>
+          <button class="period-tab" onclick="setPeriod('quarter',this)">📅 ត្រីមាស</button>
+          <button class="period-tab" onclick="setPeriod('semester',this)">📅 ឆមាស</button>
+          <button class="period-tab" onclick="setPeriod('year',this)">📅 ប្រចាំឆ្នាំ</button>
         </div>
-        <ul class="mgmt-list" id="mgmtActivityList"></ul>
+        <div class="stats-grid" id="adminStats"></div>
       </div>
-      <!-- Manage Offices -->
-      <div class="section-card">
-        <h3>🏢 គ្រប់គ្រងការិយាល័យ</h3>
-        <div class="mgmt-add">
-          <input type="text" id="newOfficeName" placeholder="ឈ្មោះការិយាល័យថ្មី">
-          <button class="btn btn-primary btn-sm" onclick="addOffice()">➕</button>
-        </div>
-        <ul class="mgmt-list" id="mgmtOfficeList"></ul>
-      </div>
-      <!-- Manage Staff -->
-      <div class="section-card">
-        <h3>👥 គ្រប់គ្រងមន្ត្រី</h3>
-        <div class="mgmt-add" style="flex-wrap:wrap;">
-          <select id="newStaffOffice" style="flex:1;min-width:120px;padding:10px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;">
-            <option value="">-- ការិយាល័យ --</option>
-          </select>
-          <input type="text" id="newStaffName" placeholder="ឈ្មោះមន្ត្រី" style="flex:1;min-width:120px;">
-          <button class="btn btn-primary btn-sm" onclick="addStaff()">➕</button>
-        </div>
-        <ul class="mgmt-list" id="mgmtStaffList"></ul>
-      </div>
-      <!-- Manage Users -->
-      <div class="section-card">
-        <h3>🔑 គ្រប់គ្រងអ្នកប្រើប្រាស់</h3>
-        <div class="mgmt-add" style="flex-wrap:wrap;">
-          <input type="text" id="newUserName" placeholder="ឈ្មោះអ្នកប្រើ" style="flex:1;min-width:100px;">
-          <input type="password" id="newUserPass" placeholder="ពាក្យសម្ងាត់" style="flex:1;min-width:100px;">
-          <button class="btn btn-primary btn-sm" onclick="addUser()">➕</button>
-        </div>
-        <ul class="mgmt-list" id="mgmtUserList"></ul>
+      <div class="card">
+        <h2>👥 ការវាយតម្លៃតាមអ្នកប្រើប្រាស់</h2>
+        <div id="adminUserBreakdown"></div>
+        <p id="adminEmpty" style="text-align:center;color:var(--text-light);padding:20px;display:none;">មិនមានទិន្នន័យក្នុងអំឡុងពេលនេះ</p>
       </div>
     </div>
-    <!-- Telegram Settings -->
-    <div class="section-card" style="margin-top:20px;">
-      <h3>📱 ការកំណត់ Telegram Bot</h3>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Bot Token</label>
-          <input type="text" id="telegramToken" placeholder="123456:ABC-DEF...">
-        </div>
-        <div class="form-group">
-          <label>Chat ID</label>
-          <input type="text" id="telegramChatId" placeholder="-100xxxxxxxxxx">
-        </div>
-      </div>
-      <div class="form-actions" style="margin-top:16px;">
-        <button class="btn btn-primary" onclick="saveTelegramSettings()">💾 រក្សាទុក</button>
-        <button class="btn btn-success" onclick="sendTelegramReport()">📤 ផ្ញើរបាយការណ៍ទៅ Telegram</button>
-      </div>
-      <p style="margin-top:10px;font-size:.82rem;color:#7f8c8d;" id="lastNotifiedText"></p>
-    </div>
-  </div>
 
-  <!-- TAB 6: REPORTS -->
-  <div class="tab-content" id="tab-reports">
-    <div class="form-card no-print">
-      <h2>📄 បង្កើតរបាយការណ៍</h2>
-      <div class="filter-bar">
-        <div class="form-group">
-          <label>រយៈពេល</label>
-          <select id="reportPeriod" onchange="generateReport()">
-            <option value="weekly">ប្រចាំសប្ដាហ៍</option>
-            <option value="monthly">ប្រចាំខែ</option>
-            <option value="quarterly">ប្រចាំត្រីមាស</option>
-            <option value="semiannual">ប្រចាំឆមាស</option>
-            <option value="annual">ប្រចាំឆ្នាំ</option>
-            <option value="custom">ជ្រើសរើសកាលបរិច្ឆេទ</option>
-          </select>
-        </div>
-        <div class="form-group" id="reportCustomRange" style="display:none;">
-          <label>ចាប់ពី</label>
-          <input type="date" id="reportFrom" onchange="generateReport()">
-        </div>
-        <div class="form-group" id="reportCustomRange2" style="display:none;">
-          <label>ដល់</label>
-          <input type="date" id="reportTo" onchange="generateReport()">
-        </div>
-        <div class="form-group">
-          <label>សកម្មភាព</label>
-          <select id="reportActivity" onchange="generateReport()"><option value="">ទាំងអស់</option></select>
-        </div>
-        <div class="form-group">
-          <label>ការិយាល័យ</label>
-          <select id="reportOffice" onchange="generateReport()"><option value="">ទាំងអស់</option></select>
+    <!-- Tab 5: Reports -->
+    <div class="tab-content" id="tabReports">
+      <div class="card no-print">
+        <h2>📄 បង្កើតរបាយការណ៍</h2>
+        <div class="filter-bar" style="background:transparent;padding:0;">
+          <div class="form-group">
+            <label>📅 ប្រភេទរយៈពេល</label>
+            <select id="rptPeriod">
+              <option value="week">ប្រចាំសប្ដាហ៍</option>
+              <option value="month">ប្រចាំខែ</option>
+              <option value="quarter">ត្រីមាស</option>
+              <option value="semester">ឆមាស</option>
+              <option value="year">ប្រចាំឆ្នាំ</option>
+              <option value="custom">ផ្ទាល់ខ្លួន</option>
+            </select>
+          </div>
+          <div class="form-group" id="rptCustomFrom" style="display:none">
+            <label>📅 ចាប់ពី</label>
+            <input type="date" id="rptDateFrom">
+          </div>
+          <div class="form-group" id="rptCustomTo" style="display:none">
+            <label>📅 ដល់</label>
+            <input type="date" id="rptDateTo">
+          </div>
+          <div class="form-group">
+            <label>👤 អ្នកប្រើប្រាស់</label>
+            <select id="rptUser">
+              <option value="">ទាំងអស់</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="generateReport()">📊 បង្កើតរបាយការណ៍</button>
         </div>
       </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" onclick="generateReport()">📊 បង្កើតរបាយការណ៍</button>
-        <button class="btn btn-success" onclick="exportCSV()">📥 នាំចេញ CSV</button>
-        <button class="btn btn-warning" onclick="window.print()">🖨️ បោះពុម្ព</button>
+      <div id="reportOutput" style="display:none">
+        <div class="card">
+          <h2 id="rptTitle">📄 របាយការណ៍</h2>
+          <div class="stats-grid" id="rptStats"></div>
+        </div>
+        <div class="card">
+          <h3>📋 តារាងលម្អិត</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th>ល.រ</th>
+                <th>កាលបរិច្ឆេទ</th>
+                <th>អ្នកប្រើប្រាស់</th>
+                <th>សកម្មភាព</th>
+                <th>ការិយាល័យ</th>
+                <th>មន្ត្រី</th>
+                <th>ទម្ងាន់</th>
+                <th>ភាគរយ</th>
+              </tr></thead>
+              <tbody id="rptDetailTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📊 សង្ខេបតាមអ្នកប្រើប្រាស់</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th>អ្នកប្រើប្រាស់</th>
+                <th>ចំនួនសកម្មភាព</th>
+                <th>ទម្ងាន់សរុប</th>
+                <th>ភាគរយមធ្យម</th>
+                <th>ការវាយតម្លៃ</th>
+              </tr></thead>
+              <tbody id="rptSummaryTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="btn-group no-print">
+          <button class="btn btn-primary" onclick="window.print()">🖨️ បោះពុម្ព</button>
+          <button class="btn btn-success" onclick="exportCSV()">📥 នាំចេញ CSV</button>
+        </div>
       </div>
     </div>
-    <div id="reportOutput"></div>
+
+    <!-- Tab 6: Settings -->
+    <div class="tab-content" id="tabSettings">
+      <div class="card">
+        <h2>⚙️ ការកំណត់ Telegram Bot</h2>
+        <div class="settings-section">
+          <h3>🤖 ការកំណត់ Bot</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>🔑 Bot Token</label>
+              <input type="text" id="setBotToken" placeholder="បញ្ចូល Bot Token...">
+            </div>
+            <div class="form-group">
+              <label>💬 Chat ID</label>
+              <input type="text" id="setChatId" placeholder="បញ្ចូល Chat ID...">
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-success" onclick="saveTelegramSettings()">💾 រក្សាទុកការកំណត់</button>
+            <button class="btn btn-primary" onclick="testTelegram()">🧪 សាកល្បងផ្ញើ</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>📤 ផ្ញើរបាយការណ៍</h3>
+          <p style="color:var(--text-light);margin-bottom:12px;">ប្រព័ន្ធនឹងផ្ញើរបាយការណ៍ស្វ័យប្រវត្តិរៀងរាល់ ៧ ថ្ងៃម្ដង (ពេលចូលប្រើប្រាស់)</p>
+          <p style="margin-bottom:12px;" id="lastNotifiedText">📅 ការផ្ញើចុងក្រោយ: មិនទាន់បានផ្ញើ</p>
+          <button class="btn btn-warning" onclick="sendWeeklyReport()">📨 ផ្ញើរបាយការណ៍ប្រចាំសប្ដាហ៍ទៅ Telegram</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>ℹ️ អំពីប្រព័ន្ធ</h2>
+        <p>ប្រព័ន្ធតាមដាន និងត្រួតពិនិត្យការអនុវត្តការងាររបស់មន្ត្រី</p>
+        <p style="color:var(--text-light);margin-top:6px;">កំណែ 1.0 | រក្សាទិន្នន័យក្នុង localStorage</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- EDIT MODAL -->
+<!-- Edit Modal -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
-    <h2>✏️ កែប្រែសកម្មភាព</h2>
-    <input type="hidden" id="editId">
-    <div class="form-grid">
-      <div class="form-group">
-        <label>កាលបរិច្ឆេទ</label>
-        <input type="date" id="editDate">
+    <div class="modal-header">
+      <h2>✏️ កែប្រែសកម្មភាព</h2>
+      <button class="modal-close" onclick="closeEditModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>📅 កាលបរិច្ឆេទ</label>
+          <input type="date" id="editDate" required>
+        </div>
+        <div class="form-group">
+          <label>🏢 ការិយាល័យ</label>
+          <input type="text" id="editOffice" required>
+        </div>
+        <div class="form-group">
+          <label>👤 ឈ្មោះមន្ត្រី</label>
+          <input type="text" id="editStaff" required>
+        </div>
+        <div class="form-group">
+          <label>⚖️ មេគុណទម្ងាន់</label>
+          <input type="number" id="editWeight" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+          <label>📊 ភាគរយ (%)</label>
+          <input type="number" id="editPercent" min="0" max="100" required>
+        </div>
       </div>
       <div class="form-group">
-        <label>សកម្មភាព</label>
-        <select id="editActivity"><option value="">--</option></select>
+        <label>📝 សកម្មភាព</label>
+        <textarea id="editActivity" required></textarea>
       </div>
       <div class="form-group">
-        <label>សូចនាករ</label>
-        <input type="text" id="editIndicator">
+        <label>📏 សូចនាករ</label>
+        <input type="text" id="editIndicator" required>
       </div>
       <div class="form-group">
-        <label>ការិយាល័យ</label>
-        <select id="editOffice" onchange="populateEditStaff()"><option value="">--</option></select>
+        <label>✅ លទ្ធផល</label>
+        <textarea id="editResult" required></textarea>
       </div>
       <div class="form-group">
-        <label>មន្ត្រី</label>
-        <select id="editStaff"><option value="">--</option></select>
-      </div>
-      <div class="form-group">
-        <label>មេគុណទម្ងាន់</label>
-        <input type="number" id="editWeight" step="0.1" min="0">
+        <label>📝 កំណត់ចំណាំ</label>
+        <textarea id="editNote" style="min-height:50px"></textarea>
       </div>
     </div>
-    <div class="form-group" style="margin-top:12px;">
-      <label>លទ្ធផលដែលសម្រេចបាន</label>
-      <textarea id="editResult"></textarea>
-    </div>
-    <div class="form-grid" style="margin-top:12px;">
-      <div class="form-group">
-        <label>ភាគរយ (%)</label>
-        <input type="number" id="editPercent" min="0" max="100">
-      </div>
-      <div class="form-group">
-        <label>កំណត់ចំណាំ</label>
-        <textarea id="editNote"></textarea>
-      </div>
-    </div>
-    <div class="modal-actions">
+    <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeEditModal()">❌ បោះបង់</button>
-      <button class="btn btn-primary" onclick="updateEntry()">💾 រក្សាទុក</button>
+      <button class="btn btn-success" onclick="saveEdit()">💾 រក្សាទុក</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ===================== DATA LAYER =====================
-const ADMIN_PASS = '363636';
-const STORAGE_KEY = 'mcApp';
-let currentUser = null;
-let isAdmin = false;
-let currentPeriod = 'weekly';
-
-function defaultData() {
-  return {
-    activities_list: [
-      {id: genId(), name: 'សកម្មភាពទី១'},
-      {id: genId(), name: 'សកម្មភាពទី២'},
-      {id: genId(), name: 'សកម្មភាពទី៣'}
-    ],
-    offices: [
-      {id: genId(), name: 'ការិយាល័យទី១'},
-      {id: genId(), name: 'ការិយាល័យទី២'}
-    ],
-    staff: [],
-    users: [
-      {id: genId(), username: 'user', password: '2030'}
-    ],
-    entries: [],
-    telegram: {botToken: '', chatId: '', lastNotified: ''},
-    settings: {}
-  };
-}
-
-function genId() {
-  return 'id_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
-}
-
-function loadData() {
-  try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (d && d.entries) {
-      // ensure all fields exist
-      if (!d.activities_list) d.activities_list = [];
-      if (!d.offices) d.offices = [];
-      if (!d.staff) d.staff = [];
-      if (!d.users) d.users = [{id:genId(),username:'user',password:'2030'}];
-      if (!d.telegram) d.telegram = {botToken:'',chatId:'',lastNotified:''};
-      if (!d.settings) d.settings = {};
-      return d;
-    }
-  } catch(e) {}
-  return defaultData();
-}
-
-function saveData(d) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
-}
-
+// ===== DATA LAYER =====
 function getData() {
-  return loadData();
+  const raw = localStorage.getItem('mcApp');
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return { entries: [], telegram: { botToken: '', chatId: '', lastNotified: '' } };
+}
+function saveData(data) {
+  localStorage.setItem('mcApp', JSON.stringify(data));
 }
 
-// ===================== AUTH =====================
+// ===== CURRENT USER =====
+let currentUser = '';
+function isAdmin() { return currentUser === 'admin'; }
+
+// ===== LOGIN =====
 function doLogin() {
   const user = document.getElementById('loginUser').value.trim();
   const pass = document.getElementById('loginPass').value;
   const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
 
-  if (user.toLowerCase() === 'admin' && pass === ADMIN_PASS) {
-    currentUser = 'admin';
-    isAdmin = true;
-    errEl.style.display = 'none';
-    showApp();
+  // Validate credentials
+  let valid = false;
+  if (user === 'admin' && pass === '363636') {
+    valid = true;
+  } else if (/^User(0[1-9]|[12]\d|30)$/i.test(user) && pass === '2030') {
+    valid = true;
+  }
+
+  if (!valid) {
+    errEl.style.display = 'block';
     return;
   }
 
-  const data = getData();
-  const found = data.users.find(u => u.username === user && u.password === pass);
-  if (found) {
-    currentUser = found.username;
-    isAdmin = false;
-    errEl.style.display = 'none';
-    showApp();
-    return;
+  // Normalize username: ensure proper casing
+  let normalizedUser = user;
+  if (user.toLowerCase() !== 'admin') {
+    const num = user.replace(/^user/i, '');
+    normalizedUser = 'User' + num.padStart(2, '0');
   }
 
-  errEl.style.display = 'block';
+  currentUser = normalizedUser;
+  sessionStorage.setItem('currentUser', currentUser);
+  showApp();
 }
 
 function doLogout() {
-  currentUser = null;
-  isAdmin = false;
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('appContainer').style.display = 'none';
+  sessionStorage.removeItem('currentUser');
+  currentUser = '';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('appPage').style.display = 'none';
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
 }
 
+// ===== SHOW APP =====
 function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appContainer').style.display = 'block';
-  document.getElementById('currentUserDisplay').textContent = '👤 ' + (isAdmin ? 'Admin' : currentUser);
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appPage').style.display = 'block';
+  document.getElementById('currentUserDisplay').textContent = currentUser;
 
-  // Show/hide admin tabs
-  document.querySelectorAll('.admin-only').forEach(el => {
-    el.style.display = isAdmin ? '' : 'none';
-  });
+  buildNavTabs();
+  switchTab('dashboard');
 
-  // Set date default
-  document.getElementById('entryDate').value = new Date().toISOString().slice(0, 10);
+  // Set default date
+  const today = new Date().toISOString().split('T')[0];
+  const fDate = document.getElementById('fDate');
+  if (fDate) fDate.value = today;
 
-  populateAllSelects();
-  switchTab('dashboard', document.querySelector('.tab-nav button'));
-  checkTelegramAuto();
-}
+  // Populate user dropdowns
+  populateUserDropdowns();
 
-// ===================== TABS =====================
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tabId).classList.add('active');
-  if (btn) btn.classList.add('active');
-
-  if (tabId === 'dashboard') renderDashboard();
-  if (tabId === 'activities') renderActivitiesTable();
-  if (tabId === 'admin') renderAdminPanel();
-  if (tabId === 'management') renderManagement();
-  if (tabId === 'reports') {
-    populateReportSelects();
-    document.getElementById('reportPeriod').onchange = function() {
-      const v = this.value;
-      document.getElementById('reportCustomRange').style.display = v === 'custom' ? '' : 'none';
-      document.getElementById('reportCustomRange2').style.display = v === 'custom' ? '' : 'none';
-      generateReport();
-    };
+  // Load telegram settings
+  if (isAdmin()) {
+    loadTelegramSettings();
+    checkAutoNotify();
   }
 }
 
-// ===================== POPULATE SELECTS =====================
-function populateAllSelects() {
-  const data = getData();
-  populateSelect('entryActivity', data.activities_list);
-  populateSelect('entryOffice', data.offices);
-  populateSelect('filterActivity', data.activities_list);
-  populateSelect('filterOffice', data.offices);
-  populateSelect('editActivity', data.activities_list);
-  populateSelect('editOffice', data.offices);
-  populateSelect('newStaffOffice', data.offices);
-  populateStaffSelect();
-}
+// ===== NAV TABS =====
+const allTabs = [
+  { id: 'dashboard', label: '📊 ផ្ទាំងគ្រប់គ្រង', forAll: true },
+  { id: 'entry', label: '📝 បញ្ចូលទិន្នន័យ', forAll: false, userOnly: true },
+  { id: 'activities', label: '📋 សកម្មភាពរបស់ខ្ញុំ', forAll: true },
+  { id: 'admin', label: '🔒 ផ្ទាំង Admin', forAll: false, adminOnly: true },
+  { id: 'reports', label: '📄 របាយការណ៍', forAll: false, adminOnly: true },
+  { id: 'settings', label: '⚙️ ការកំណត់', forAll: false, adminOnly: true }
+];
 
-function populateSelect(elId, items) {
-  const el = document.getElementById(elId);
-  if (!el) return;
-  const val = el.value;
-  const firstOpt = el.querySelector('option');
-  el.innerHTML = '';
-  if (firstOpt) el.appendChild(firstOpt);
-  items.forEach(item => {
-    const o = document.createElement('option');
-    o.value = item.id;
-    o.textContent = item.name;
-    el.appendChild(o);
-  });
-  el.value = val;
-}
+function buildNavTabs() {
+  const nav = document.getElementById('navTabs');
+  nav.innerHTML = '';
+  allTabs.forEach(tab => {
+    if (tab.adminOnly && !isAdmin()) return;
+    if (tab.userOnly && isAdmin()) return;
 
-function populateStaffSelect() {
-  const data = getData();
-  const officeId = document.getElementById('entryOffice').value;
-  const el = document.getElementById('entryStaff');
-  el.innerHTML = '<option value="">-- ជ្រើសរើស --</option>';
-  data.staff.filter(s => !officeId || s.officeId === officeId).forEach(s => {
-    const o = document.createElement('option');
-    o.value = s.id;
-    o.textContent = s.name;
-    el.appendChild(o);
+    const btn = document.createElement('button');
+    let label = tab.label;
+    if (tab.id === 'activities' && isAdmin()) {
+      label = '📋 សកម្មភាពទាំងអស់';
+    }
+    btn.textContent = label;
+    btn.onclick = () => switchTab(tab.id);
+    btn.id = 'navBtn_' + tab.id;
+    nav.appendChild(btn);
   });
 }
 
-function populateEditStaff() {
-  const data = getData();
-  const officeId = document.getElementById('editOffice').value;
-  const el = document.getElementById('editStaff');
-  el.innerHTML = '<option value="">--</option>';
-  data.staff.filter(s => !officeId || s.officeId === officeId).forEach(s => {
-    const o = document.createElement('option');
-    o.value = s.id;
-    o.textContent = s.name;
-    el.appendChild(o);
+function switchTab(tabId) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tabs button').forEach(el => el.classList.remove('active'));
+
+  // Map tab id to element id
+  const mapping = {
+    dashboard: 'tabDashboard',
+    entry: 'tabEntry',
+    activities: 'tabActivities',
+    admin: 'tabAdmin',
+    reports: 'tabReports',
+    settings: 'tabSettings'
+  };
+
+  const target = document.getElementById(mapping[tabId]);
+  if (target) target.classList.add('active');
+
+  const navBtn = document.getElementById('navBtn_' + tabId);
+  if (navBtn) navBtn.classList.add('active');
+
+  // Load tab data
+  if (tabId === 'dashboard') loadDashboard();
+  if (tabId === 'entry') loadEntryTab();
+  if (tabId === 'activities') loadActivities();
+  if (tabId === 'admin') loadAdminPanel();
+  if (tabId === 'reports') prepareReports();
+}
+
+// ===== POPULATE USER DROPDOWNS =====
+function populateUserDropdowns() {
+  const selects = [document.getElementById('filterUser'), document.getElementById('rptUser')];
+  selects.forEach(sel => {
+    if (!sel) return;
+    // Keep first option
+    while (sel.options.length > 1) sel.remove(1);
+    for (let i = 1; i <= 30; i++) {
+      const opt = document.createElement('option');
+      opt.value = 'User' + String(i).padStart(2, '0');
+      opt.textContent = 'User' + String(i).padStart(2, '0');
+      sel.appendChild(opt);
+    }
   });
 }
 
-function populateReportSelects() {
+// ===== TOAST =====
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  const icons = { success: '✅', error: '❌', warning: '⚠️' };
+  toast.innerHTML = `<span>${icons[type] || '✅'}</span><span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('removing');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ===== HELPER: Get entries for user =====
+function getUserEntries(username) {
   const data = getData();
-  populateSelect('reportActivity', data.activities_list);
-  populateSelect('reportOffice', data.offices);
+  if (!username) return data.entries;
+  return data.entries.filter(e => e.createdBy === username);
 }
 
-// ===================== HELPERS =====================
-function getName(list, id) {
-  const item = list.find(x => x.id === id);
-  return item ? item.name : '—';
+// ===== HELPER: Date range filter =====
+function getDateRange(period) {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let start, end;
+  end = new Date(today);
+  end.setHours(23, 59, 59, 999);
+
+  switch (period) {
+    case 'week':
+      start = new Date(today);
+      const dow = start.getDay();
+      start.setDate(start.getDate() - (dow === 0 ? 6 : dow - 1)); // Monday
+      break;
+    case 'month':
+      start = new Date(today.getFullYear(), today.getMonth(), 1);
+      break;
+    case 'quarter':
+      const qm = Math.floor(today.getMonth() / 3) * 3;
+      start = new Date(today.getFullYear(), qm, 1);
+      break;
+    case 'semester':
+      const sm = today.getMonth() < 6 ? 0 : 6;
+      start = new Date(today.getFullYear(), sm, 1);
+      break;
+    case 'year':
+      start = new Date(today.getFullYear(), 0, 1);
+      break;
+    default:
+      start = new Date(today);
+      start.setDate(start.getDate() - 7);
+  }
+  return { start, end };
 }
 
-function getPerformanceBadge(pct) {
-  if (pct >= 90) return '<span class="badge badge-excellent">ល្អណាស់</span>';
-  if (pct >= 80) return '<span class="badge badge-good">ល្អ</span>';
-  if (pct >= 60) return '<span class="badge badge-average">មធ្យម</span>';
-  if (pct >= 40) return '<span class="badge badge-improve">ត្រូវកែលម្អ</span>';
-  return '<span class="badge badge-weak">ខ្សោយ</span>';
+function filterByDateRange(entries, start, end) {
+  return entries.filter(e => {
+    const d = new Date(e.date);
+    return d >= start && d <= end;
+  });
 }
 
-function getProgressBar(pct) {
-  let color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--orange)' : 'var(--red)';
-  return `<div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color};">${pct}%</div></div>`;
+// ===== HELPER: Performance badge =====
+function getPerformanceBadge(avgPct) {
+  if (avgPct >= 90) return '<span class="badge badge-excellent">ល្អណាស់</span>';
+  if (avgPct >= 80) return '<span class="badge badge-good">ល្អ</span>';
+  if (avgPct >= 60) return '<span class="badge badge-average">មធ្យម</span>';
+  if (avgPct >= 40) return '<span class="badge badge-improve">ត្រូវកែលម្អ</span>';
+  return '<span class="badge badge-poor">ខ្សោយ</span>';
 }
 
-function showToast(msg, type) {
-  type = type || 'success';
-  const c = document.getElementById('toastContainer');
-  const t = document.createElement('div');
-  t.className = 'toast toast-' + type;
-  t.innerHTML = (type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️') + ' ' + msg;
-  c.appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(60px)'; setTimeout(() => t.remove(), 300); }, 3000);
+function getPerformanceText(avgPct) {
+  if (avgPct >= 90) return 'ល្អណាស់';
+  if (avgPct >= 80) return 'ល្អ';
+  if (avgPct >= 60) return 'មធ្យម';
+  if (avgPct >= 40) return 'ត្រូវកែលម្អ';
+  return 'ខ្សោយ';
 }
 
-// ===================== DATA ENTRY =====================
-function saveEntry() {
-  const date = document.getElementById('entryDate').value;
-  const activityId = document.getElementById('entryActivity').value;
-  const indicator = document.getElementById('entryIndicator').value.trim();
-  const officeId = document.getElementById('entryOffice').value;
-  const staffId = document.getElementById('entryStaff').value;
-  const weight = parseFloat(document.getElementById('entryWeight').value);
-  const result = document.getElementById('entryResult').value.trim();
-  const pct = parseFloat(document.getElementById('entryPercent').value);
-  const note = document.getElementById('entryNote').value.trim();
+// ===== HELPER: Progress bar HTML =====
+function progressBarHTML(pct) {
+  let cls = 'red';
+  if (pct >= 80) cls = 'green';
+  else if (pct >= 50) cls = 'orange';
+  return `<div style="display:flex;align-items:center;gap:8px;">
+    <div class="progress-bar" style="width:80px"><div class="fill ${cls}" style="width:${pct}%"></div></div>
+    <span style="font-size:12px;font-weight:600">${pct}%</span>
+  </div>`;
+}
 
-  if (!date || !activityId || !indicator || !officeId || !staffId || isNaN(weight) || !result || isNaN(pct)) {
-    showToast('សូមបំពេញគ្រប់ប្រអប់ដែលចាំបាច់ (*)', 'error');
+// ===== HELPER: Truncate text =====
+function truncate(text, maxLen) {
+  if (!text) return '';
+  return text.length > maxLen ? text.substring(0, maxLen) + '...' : text;
+}
+
+// ===== HELPER: Format date =====
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+}
+
+// ===== HELPER: Generate unique ID =====
+function generateId() {
+  return 'e_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// ===== TAB 1: DASHBOARD =====
+function loadDashboard() {
+  const data = getData();
+  let entries = isAdmin() ? data.entries : data.entries.filter(e => e.createdBy === currentUser);
+
+  const totalActivities = entries.length;
+  const avgPct = entries.length ? (entries.reduce((s, e) => s + (parseFloat(e.percentage) || 0), 0) / entries.length).toFixed(1) : 0;
+  const avgWeight = entries.length ? (entries.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0) / entries.length).toFixed(2) : 0;
+  const totalWeight = entries.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0).toFixed(2);
+
+  let statsHTML = '';
+  statsHTML += `<div class="stat-card"><div class="stat-label">📊 សកម្មភាពសរុប</div><div class="stat-value">${totalActivities}</div></div>`;
+  statsHTML += `<div class="stat-card green"><div class="stat-label">📈 ភាគរយមធ្យម</div><div class="stat-value">${avgPct}%</div></div>`;
+  statsHTML += `<div class="stat-card orange"><div class="stat-label">⚖️ ទម្ងាន់មធ្យម</div><div class="stat-value">${avgWeight}</div></div>`;
+  statsHTML += `<div class="stat-card red"><div class="stat-label">⚖️ ទម្ងាន់សរុប</div><div class="stat-value">${totalWeight}</div></div>`;
+
+  if (isAdmin()) {
+    const activeUsers = [...new Set(data.entries.map(e => e.createdBy))].length;
+    statsHTML += `<div class="stat-card"><div class="stat-label">👥 អ្នកប្រើប្រាស់សកម្ម</div><div class="stat-value">${activeUsers}</div></div>`;
+  }
+
+  document.getElementById('dashStats').innerHTML = statsHTML;
+
+  // Recent 10
+  const sorted = [...entries].sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+  const recent = sorted.slice(0, 10);
+  const tbody = document.getElementById('dashRecentTable');
+  if (recent.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">មិនមានទិន្នន័យ</td></tr>';
+  } else {
+    tbody.innerHTML = recent.map(e => `<tr>
+      <td>${formatDate(e.date)}</td>
+      <td>${truncate(e.activity, 40)}</td>
+      <td>${truncate(e.office, 20)}</td>
+      <td>${truncate(e.staffName, 20)}</td>
+      <td>${progressBarHTML(e.percentage)}</td>
+      <td>${e.createdBy}</td>
+    </tr>`).join('');
+  }
+}
+
+// ===== TAB 2: DATA ENTRY =====
+function loadEntryTab() {
+  if (isAdmin()) return;
+  const entries = getUserEntries(currentUser);
+  const count = entries.length;
+  document.getElementById('entryCountText').textContent = `អ្នកបានបញ្ចូល ${count}/50 សកម្មភាព`;
+  document.getElementById('entryCountBar').style.width = (count / 50 * 100) + '%';
+
+  if (count >= 50) {
+    document.getElementById('entryFormCard').style.display = 'none';
+    document.getElementById('entryFullMsg').style.display = 'block';
+  } else {
+    document.getElementById('entryFormCard').style.display = 'block';
+    document.getElementById('entryFullMsg').style.display = 'none';
+  }
+}
+
+function saveEntry(e) {
+  e.preventDefault();
+  if (isAdmin()) return;
+
+  const entries = getUserEntries(currentUser);
+  if (entries.length >= 50) {
+    showToast('អ្នកបានបញ្ចូលគ្រប់ ៥០ សកម្មភាពហើយ!', 'warning');
     return;
   }
-  if (pct < 0 || pct > 100) {
-    showToast('ភាគរយត្រូវស្ថិតក្នុងចន្លោះ 0-100', 'error');
-    return;
-  }
 
-  const data = getData();
-  data.entries.push({
-    id: genId(),
-    date, activityId, indicator, officeId, staffId,
-    weight, result, percentage: pct, note,
+  const entry = {
+    id: generateId(),
+    date: document.getElementById('fDate').value,
+    activity: document.getElementById('fActivity').value.trim(),
+    indicator: document.getElementById('fIndicator').value.trim(),
+    office: document.getElementById('fOffice').value.trim(),
+    staffName: document.getElementById('fStaff').value.trim(),
+    weight: parseFloat(document.getElementById('fWeight').value) || 0,
+    result: document.getElementById('fResult').value.trim(),
+    percentage: parseInt(document.getElementById('fPercent').value) || 0,
+    note: document.getElementById('fNote').value.trim(),
     createdBy: currentUser,
     createdAt: new Date().toISOString()
-  });
+  };
+
+  const data = getData();
+  data.entries.push(entry);
   saveData(data);
-  clearEntryForm();
-  showToast('ទិន្នន័យត្រូវបានរក្សាទុកដោយជោគជ័យ!');
+
+  showToast('បានរក្សាទុកដោយជោគជ័យ!');
+  resetForm();
+  loadEntryTab();
 }
 
-function clearEntryForm() {
-  document.getElementById('entryDate').value = new Date().toISOString().slice(0, 10);
-  document.getElementById('entryActivity').value = '';
-  document.getElementById('entryIndicator').value = '';
-  document.getElementById('entryOffice').value = '';
-  document.getElementById('entryStaff').innerHTML = '<option value="">-- ជ្រើសរើស --</option>';
-  document.getElementById('entryWeight').value = '';
-  document.getElementById('entryResult').value = '';
-  document.getElementById('entryPercent').value = '';
-  document.getElementById('entryNote').value = '';
+function resetForm() {
+  document.getElementById('entryForm').reset();
+  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
 }
 
-// ===================== DASHBOARD =====================
-function renderDashboard() {
+// ===== TAB 3: ACTIVITIES =====
+function loadActivities() {
   const data = getData();
-  const entries = data.entries;
-  const totalActivities = entries.length;
-  const uniqueOffices = new Set(entries.map(e => e.officeId)).size;
-  const uniqueStaff = new Set(entries.map(e => e.staffId)).size;
-  const avgPct = totalActivities ? (entries.reduce((s, e) => s + (e.percentage || 0), 0) / totalActivities).toFixed(1) : 0;
-  const avgWeight = totalActivities ? (entries.reduce((s, e) => s + (e.weight || 0), 0) / totalActivities).toFixed(2) : 0;
+  let entries;
 
-  document.getElementById('dashStats').innerHTML = `
-    <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-value">${totalActivities}</div><div class="stat-label">សកម្មភាពសរុប</div></div>
-    <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-value">${uniqueOffices}</div><div class="stat-label">ការិយាល័យ</div></div>
-    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">${uniqueStaff}</div><div class="stat-label">មន្ត្រី</div></div>
-    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value">${avgPct}%</div><div class="stat-label">ភាគរយមធ្យម</div></div>
-    <div class="stat-card"><div class="stat-icon">⚖️</div><div class="stat-value">${avgWeight}</div><div class="stat-label">មេគុណមធ្យម</div></div>
-  `;
+  if (isAdmin()) {
+    document.getElementById('activitiesTitle').textContent = '📋 សកម្មភាពទាំងអស់';
+    document.getElementById('filterUserGroup').style.display = 'block';
+    document.getElementById('actColUser').style.display = '';
 
-  const recent = [...entries].sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || '')).slice(0, 10);
-  document.getElementById('dashTable').innerHTML = recent.map(e => `<tr>
-    <td>${e.date}</td>
-    <td>${getName(data.activities_list, e.activityId)}</td>
-    <td>${e.indicator || ''}</td>
-    <td>${getName(data.offices, e.officeId)}</td>
-    <td>${getName(data.staff, e.staffId)}</td>
-    <td>${e.weight}</td>
-    <td>${getProgressBar(e.percentage)}</td>
-    <td>${getPerformanceBadge(e.percentage)}</td>
-  </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:30px;color:#aaa;">មិនទាន់មានទិន្នន័យ</td></tr>';
-}
-
-// ===================== ACTIVITIES TABLE =====================
-function renderActivitiesTable() {
-  const data = getData();
-  let entries = [...data.entries];
-  const search = (document.getElementById('filterSearch').value || '').toLowerCase();
-  const actF = document.getElementById('filterActivity').value;
-  const offF = document.getElementById('filterOffice').value;
-  const fromD = document.getElementById('filterFrom').value;
-  const toD = document.getElementById('filterTo').value;
-
-  if (actF) entries = entries.filter(e => e.activityId === actF);
-  if (offF) entries = entries.filter(e => e.officeId === offF);
-  if (fromD) entries = entries.filter(e => e.date >= fromD);
-  if (toD) entries = entries.filter(e => e.date <= toD);
-  if (search) {
-    entries = entries.filter(e => {
-      const aName = getName(data.activities_list, e.activityId).toLowerCase();
-      const oName = getName(data.offices, e.officeId).toLowerCase();
-      const sName = getName(data.staff, e.staffId).toLowerCase();
-      return aName.includes(search) || oName.includes(search) || sName.includes(search) || (e.indicator || '').toLowerCase().includes(search) || (e.result || '').toLowerCase().includes(search);
-    });
+    const selUser = document.getElementById('filterUser').value;
+    entries = selUser ? data.entries.filter(e => e.createdBy === selUser) : data.entries;
+  } else {
+    document.getElementById('activitiesTitle').textContent = '📋 សកម្មភាពរបស់ខ្ញុំ';
+    document.getElementById('filterUserGroup').style.display = 'none';
+    document.getElementById('actColUser').style.display = 'none';
+    entries = data.entries.filter(e => e.createdBy === currentUser);
   }
 
-  entries.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  document.getElementById('activityCount').textContent = `សរុប: ${entries.length} កំណត់ត្រា`;
+  // Date range filter
+  const fromDate = document.getElementById('filterDateFrom').value;
+  const toDate = document.getElementById('filterDateTo').value;
+  if (fromDate) entries = entries.filter(e => e.date >= fromDate);
+  if (toDate) entries = entries.filter(e => e.date <= toDate);
 
-  document.getElementById('activitiesTableBody').innerHTML = entries.map(e => `<tr>
-    <td>${e.date}</td>
-    <td>${getName(data.activities_list, e.activityId)}</td>
-    <td>${e.indicator || ''}</td>
-    <td>${getName(data.offices, e.officeId)}</td>
-    <td>${getName(data.staff, e.staffId)}</td>
-    <td>${e.weight}</td>
-    <td style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${(e.result||'').replace(/"/g,'&quot;')}">${e.result || ''}</td>
-    <td>${getProgressBar(e.percentage)}</td>
-    <td>${getPerformanceBadge(e.percentage)}</td>
-    <td class="no-print">
-      <button class="btn btn-warning btn-sm" onclick="openEditModal('${e.id}')">✏️</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteEntry('${e.id}')">🗑️</button>
-    </td>
-  </tr>`).join('') || '<tr><td colspan="10" style="text-align:center;padding:30px;color:#aaa;">មិនមានទិន្នន័យ</td></tr>';
+  // Sort by date desc
+  entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const tbody = document.getElementById('activitiesTable');
+  const emptyMsg = document.getElementById('activitiesEmpty');
+
+  if (entries.length === 0) {
+    tbody.innerHTML = '';
+    emptyMsg.style.display = 'block';
+  } else {
+    emptyMsg.style.display = 'none';
+    tbody.innerHTML = entries.map((e, i) => `<tr>
+      <td>${i + 1}</td>
+      <td>${formatDate(e.date)}</td>
+      <td>${truncate(e.activity, 35)}</td>
+      <td>${truncate(e.indicator, 25)}</td>
+      <td>${truncate(e.office, 20)}</td>
+      <td>${truncate(e.staffName, 20)}</td>
+      <td>${e.weight}</td>
+      <td>${truncate(e.result, 30)}</td>
+      <td>${progressBarHTML(e.percentage)}</td>
+      <td>${truncate(e.note, 20)}</td>
+      ${isAdmin() ? `<td>${e.createdBy}</td>` : ''}
+      <td class="no-print">
+        <button class="btn btn-primary btn-sm" onclick="openEditModal('${e.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteEntry('${e.id}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+  }
 }
 
-// ===================== EDIT MODAL =====================
+// ===== EDIT MODAL =====
 function openEditModal(id) {
   const data = getData();
-  const e = data.entries.find(x => x.id === id);
-  if (!e) return;
-  populateSelect('editActivity', data.activities_list);
-  populateSelect('editOffice', data.offices);
-  document.getElementById('editId').value = e.id;
-  document.getElementById('editDate').value = e.date;
-  document.getElementById('editActivity').value = e.activityId;
-  document.getElementById('editIndicator').value = e.indicator || '';
-  document.getElementById('editOffice').value = e.officeId;
-  populateEditStaff();
-  document.getElementById('editStaff').value = e.staffId;
-  document.getElementById('editWeight').value = e.weight;
-  document.getElementById('editResult').value = e.result || '';
-  document.getElementById('editPercent').value = e.percentage;
-  document.getElementById('editNote').value = e.note || '';
-  document.getElementById('editModal').classList.add('show');
+  const entry = data.entries.find(e => e.id === id);
+  if (!entry) return;
+
+  document.getElementById('editId').value = entry.id;
+  document.getElementById('editDate').value = entry.date;
+  document.getElementById('editActivity').value = entry.activity;
+  document.getElementById('editIndicator').value = entry.indicator;
+  document.getElementById('editOffice').value = entry.office;
+  document.getElementById('editStaff').value = entry.staffName;
+  document.getElementById('editWeight').value = entry.weight;
+  document.getElementById('editResult').value = entry.result;
+  document.getElementById('editPercent').value = entry.percentage;
+  document.getElementById('editNote').value = entry.note || '';
+
+  document.getElementById('editModal').classList.add('active');
 }
 
 function closeEditModal() {
-  document.getElementById('editModal').classList.remove('show');
+  document.getElementById('editModal').classList.remove('active');
 }
 
-function updateEntry() {
+function saveEdit() {
   const id = document.getElementById('editId').value;
   const data = getData();
-  const idx = data.entries.findIndex(x => x.id === id);
-  if (idx < 0) return;
-  const pct = parseFloat(document.getElementById('editPercent').value);
-  if (isNaN(pct) || pct < 0 || pct > 100) { showToast('ភាគរយមិនត្រឹមត្រូវ', 'error'); return; }
-  data.entries[idx] = {
-    ...data.entries[idx],
-    date: document.getElementById('editDate').value,
-    activityId: document.getElementById('editActivity').value,
-    indicator: document.getElementById('editIndicator').value.trim(),
-    officeId: document.getElementById('editOffice').value,
-    staffId: document.getElementById('editStaff').value,
-    weight: parseFloat(document.getElementById('editWeight').value) || 0,
-    result: document.getElementById('editResult').value.trim(),
-    percentage: pct,
-    note: document.getElementById('editNote').value.trim()
-  };
+  const idx = data.entries.findIndex(e => e.id === id);
+  if (idx === -1) return;
+
+  data.entries[idx].date = document.getElementById('editDate').value;
+  data.entries[idx].activity = document.getElementById('editActivity').value.trim();
+  data.entries[idx].indicator = document.getElementById('editIndicator').value.trim();
+  data.entries[idx].office = document.getElementById('editOffice').value.trim();
+  data.entries[idx].staffName = document.getElementById('editStaff').value.trim();
+  data.entries[idx].weight = parseFloat(document.getElementById('editWeight').value) || 0;
+  data.entries[idx].result = document.getElementById('editResult').value.trim();
+  data.entries[idx].percentage = parseInt(document.getElementById('editPercent').value) || 0;
+  data.entries[idx].note = document.getElementById('editNote').value.trim();
+
   saveData(data);
   closeEditModal();
-  renderActivitiesTable();
-  showToast('កែប្រែដោយជោគជ័យ!');
+  showToast('បានកែប្រែដោយជោគជ័យ!');
+  loadActivities();
 }
 
 function deleteEntry(id) {
-  if (!confirm('តើអ្នកប្រាកដថាចង់លុបកំណត់ត្រានេះ?')) return;
+  if (!confirm('តើអ្នកពិតជាចង់លុបសកម្មភាពនេះ?')) return;
   const data = getData();
   data.entries = data.entries.filter(e => e.id !== id);
   saveData(data);
-  renderActivitiesTable();
-  showToast('លុបដោយជោគជ័យ!');
+  showToast('បានលុបដោយជោគជ័យ!', 'warning');
+  loadActivities();
 }
 
-// ===================== ADMIN PANEL =====================
-function switchPeriod(period, btn) {
+// ===== TAB 4: ADMIN PANEL =====
+let currentPeriod = 'week';
+
+function setPeriod(period, btn) {
   currentPeriod = period;
-  document.querySelectorAll('.period-tabs button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  renderAdminPanel();
+  loadAdminPanel();
 }
 
-function getDateRange(period) {
-  const now = new Date();
-  let start = new Date();
-  switch (period) {
-    case 'weekly':
-      const day = now.getDay();
-      start.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-      break;
-    case 'monthly':
-      start = new Date(now.getFullYear(), now.getMonth(), 1);
-      break;
-    case 'quarterly':
-      const q = Math.floor(now.getMonth() / 3) * 3;
-      start = new Date(now.getFullYear(), q, 1);
-      break;
-    case 'semiannual':
-      const h = now.getMonth() < 6 ? 0 : 6;
-      start = new Date(now.getFullYear(), h, 1);
-      break;
-    case 'annual':
-      start = new Date(now.getFullYear(), 0, 1);
-      break;
-  }
-  start.setHours(0, 0, 0, 0);
-  return { start: start.toISOString().slice(0, 10), end: now.toISOString().slice(0, 10) };
-}
-
-function renderAdminPanel() {
+function loadAdminPanel() {
+  if (!isAdmin()) return;
   const data = getData();
-  const range = getDateRange(currentPeriod);
-  const entries = data.entries.filter(e => e.date >= range.start && e.date <= range.end);
+  const { start, end } = getDateRange(currentPeriod);
+  const filtered = filterByDateRange(data.entries, start, end);
 
-  const total = entries.length;
-  const offices = new Set(entries.map(e => e.officeId)).size;
-  const staffC = new Set(entries.map(e => e.staffId)).size;
-  const avgPct = total ? (entries.reduce((s, e) => s + (e.percentage || 0), 0) / total).toFixed(1) : 0;
-  const avgW = total ? (entries.reduce((s, e) => s + (e.weight || 0), 0) / total).toFixed(2) : 0;
+  // Stats
+  const totalActivities = filtered.length;
+  const activeUsers = [...new Set(filtered.map(e => e.createdBy))];
+  const activeOffices = [...new Set(filtered.map(e => e.office).filter(Boolean))];
+  const avgPct = filtered.length ? (filtered.reduce((s, e) => s + (parseFloat(e.percentage) || 0), 0) / filtered.length).toFixed(1) : 0;
+  const totalWeight = filtered.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0).toFixed(2);
 
   document.getElementById('adminStats').innerHTML = `
-    <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-value">${total}</div><div class="stat-label">សកម្មភាពក្នុងរយៈពេល</div></div>
-    <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-value">${offices}</div><div class="stat-label">ការិយាល័យ</div></div>
-    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">${staffC}</div><div class="stat-label">មន្ត្រី</div></div>
-    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value">${avgPct}%</div><div class="stat-label">ភាគរយមធ្យម</div></div>
-    <div class="stat-card"><div class="stat-icon">⚖️</div><div class="stat-value">${avgW}</div><div class="stat-label">មេគុណមធ្យម</div></div>
+    <div class="stat-card"><div class="stat-label">📊 សកម្មភាពសរុប</div><div class="stat-value">${totalActivities}</div></div>
+    <div class="stat-card green"><div class="stat-label">👥 អ្នកប្រើប្រាស់សកម្ម</div><div class="stat-value">${activeUsers.length}</div></div>
+    <div class="stat-card orange"><div class="stat-label">🏢 ការិយាល័យសកម្ម</div><div class="stat-value">${activeOffices.length}</div></div>
+    <div class="stat-card"><div class="stat-label">📈 ភាគរយមធ្យម</div><div class="stat-value">${avgPct}%</div></div>
+    <div class="stat-card red"><div class="stat-label">⚖️ ទម្ងាន់សរុប</div><div class="stat-value">${totalWeight}</div></div>
   `;
 
-  // Build breakdown: activity > office > staff
-  const breakdown = {};
-  entries.forEach(e => {
-    const aName = getName(data.activities_list, e.activityId);
-    const oName = getName(data.offices, e.officeId);
-    const sName = getName(data.staff, e.staffId);
-    const key = `${aName}|||${oName}|||${sName}`;
-    if (!breakdown[key]) breakdown[key] = { activity: aName, office: oName, staff: sName, indicators: new Set(), weights: [], percentages: [], count: 0 };
-    breakdown[key].indicators.add(e.indicator || '');
-    breakdown[key].weights.push(e.weight || 0);
-    breakdown[key].percentages.push(e.percentage || 0);
-    breakdown[key].count++;
-  });
+  // User breakdown
+  const breakdownEl = document.getElementById('adminUserBreakdown');
+  const emptyEl = document.getElementById('adminEmpty');
 
-  const rows = Object.values(breakdown).sort((a, b) => a.activity.localeCompare(b.activity) || a.office.localeCompare(b.office));
-
-  document.getElementById('adminTableBody').innerHTML = rows.map(r => {
-    const avgP = (r.percentages.reduce((s, v) => s + v, 0) / r.percentages.length).toFixed(1);
-    const avgWt = (r.weights.reduce((s, v) => s + v, 0) / r.weights.length).toFixed(2);
-    return `<tr>
-      <td>${r.activity}</td><td>${r.office}</td><td>${r.staff}</td>
-      <td style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${[...r.indicators].join(', ')}</td>
-      <td>${avgWt}</td><td>${getProgressBar(parseFloat(avgP))}</td><td>${r.count}</td><td>${getPerformanceBadge(parseFloat(avgP))}</td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="8" style="text-align:center;padding:30px;color:#aaa;">មិនមានទិន្នន័យក្នុងរយៈពេលនេះ</td></tr>';
-}
-
-// ===================== MANAGEMENT =====================
-function renderManagement() {
-  const data = getData();
-
-  // Activities
-  document.getElementById('mgmtActivityList').innerHTML = data.activities_list.map(a =>
-    `<li><span>${a.name}</span><button class="btn btn-danger btn-sm" onclick="removeActivity('${a.id}')">🗑️</button></li>`
-  ).join('') || '<li style="color:#aaa;justify-content:center;">មិនទាន់មាន</li>';
-
-  // Offices
-  document.getElementById('mgmtOfficeList').innerHTML = data.offices.map(o =>
-    `<li><span>${o.name}</span><button class="btn btn-danger btn-sm" onclick="removeOffice('${o.id}')">🗑️</button></li>`
-  ).join('') || '<li style="color:#aaa;justify-content:center;">មិនទាន់មាន</li>';
-
-  // Staff
-  populateSelect('newStaffOffice', data.offices);
-  document.getElementById('mgmtStaffList').innerHTML = data.staff.map(s =>
-    `<li><span>${s.name} <small style="color:#999;">(${getName(data.offices, s.officeId)})</small></span><button class="btn btn-danger btn-sm" onclick="removeStaff('${s.id}')">🗑️</button></li>`
-  ).join('') || '<li style="color:#aaa;justify-content:center;">មិនទាន់មាន</li>';
-
-  // Users
-  document.getElementById('mgmtUserList').innerHTML = data.users.map(u =>
-    `<li><span>👤 ${u.username}</span><button class="btn btn-danger btn-sm" onclick="removeUser('${u.id}')">🗑️</button></li>`
-  ).join('') || '<li style="color:#aaa;justify-content:center;">មិនទាន់មាន</li>';
-
-  // Telegram
-  document.getElementById('telegramToken').value = data.telegram.botToken || '';
-  document.getElementById('telegramChatId').value = data.telegram.chatId || '';
-  if (data.telegram.lastNotified) {
-    document.getElementById('lastNotifiedText').textContent = '📅 ផ្ញើចុងក្រោយ: ' + new Date(data.telegram.lastNotified).toLocaleString('km-KH');
-  } else {
-    document.getElementById('lastNotifiedText').textContent = 'មិនទាន់បានផ្ញើ';
-  }
-}
-
-function addActivity() {
-  const name = document.getElementById('newActivityName').value.trim();
-  if (!name) { showToast('សូមបញ្ចូលឈ្មោះ', 'error'); return; }
-  const data = getData();
-  data.activities_list.push({ id: genId(), name });
-  saveData(data);
-  document.getElementById('newActivityName').value = '';
-  renderManagement();
-  populateAllSelects();
-  showToast('បានបន្ថែមសកម្មភាពថ្មី!');
-}
-
-function removeActivity(id) {
-  if (!confirm('លុបសកម្មភាពនេះ?')) return;
-  const data = getData();
-  data.activities_list = data.activities_list.filter(a => a.id !== id);
-  saveData(data);
-  renderManagement();
-  populateAllSelects();
-  showToast('បានលុប!');
-}
-
-function addOffice() {
-  const name = document.getElementById('newOfficeName').value.trim();
-  if (!name) { showToast('សូមបញ្ចូលឈ្មោះ', 'error'); return; }
-  const data = getData();
-  data.offices.push({ id: genId(), name });
-  saveData(data);
-  document.getElementById('newOfficeName').value = '';
-  renderManagement();
-  populateAllSelects();
-  showToast('បានបន្ថែមការិយាល័យថ្មី!');
-}
-
-function removeOffice(id) {
-  if (!confirm('លុបការិយាល័យនេះ?')) return;
-  const data = getData();
-  data.offices = data.offices.filter(o => o.id !== id);
-  saveData(data);
-  renderManagement();
-  populateAllSelects();
-  showToast('បានលុប!');
-}
-
-function addStaff() {
-  const officeId = document.getElementById('newStaffOffice').value;
-  const name = document.getElementById('newStaffName').value.trim();
-  if (!officeId || !name) { showToast('សូមជ្រើសការិយាល័យ និងបញ្ចូលឈ្មោះ', 'error'); return; }
-  const data = getData();
-  data.staff.push({ id: genId(), name, officeId });
-  saveData(data);
-  document.getElementById('newStaffName').value = '';
-  renderManagement();
-  populateAllSelects();
-  showToast('បានបន្ថែមមន្ត្រីថ្មី!');
-}
-
-function removeStaff(id) {
-  if (!confirm('លុបមន្ត្រីនេះ?')) return;
-  const data = getData();
-  data.staff = data.staff.filter(s => s.id !== id);
-  saveData(data);
-  renderManagement();
-  populateAllSelects();
-  showToast('បានលុប!');
-}
-
-function addUser() {
-  const username = document.getElementById('newUserName').value.trim();
-  const password = document.getElementById('newUserPass').value;
-  if (!username || !password) { showToast('សូមបំពេញឈ្មោះ និងពាក្យសម្ងាត់', 'error'); return; }
-  if (username.toLowerCase() === 'admin') { showToast('មិនអាចប្រើឈ្មោះ admin', 'error'); return; }
-  const data = getData();
-  if (data.users.find(u => u.username === username)) { showToast('ឈ្មោះនេះមានរួចហើយ', 'error'); return; }
-  data.users.push({ id: genId(), username, password });
-  saveData(data);
-  document.getElementById('newUserName').value = '';
-  document.getElementById('newUserPass').value = '';
-  renderManagement();
-  showToast('បានបន្ថែមអ្នកប្រើថ្មី!');
-}
-
-function removeUser(id) {
-  if (!confirm('លុបអ្នកប្រើនេះ?')) return;
-  const data = getData();
-  data.users = data.users.filter(u => u.id !== id);
-  saveData(data);
-  renderManagement();
-  showToast('បានលុប!');
-}
-
-// ===================== TELEGRAM =====================
-function saveTelegramSettings() {
-  const data = getData();
-  data.telegram.botToken = document.getElementById('telegramToken').value.trim();
-  data.telegram.chatId = document.getElementById('telegramChatId').value.trim();
-  saveData(data);
-  showToast('ការកំណត់ Telegram បានរក្សាទុក!');
-}
-
-async function sendTelegramReport() {
-  const data = getData();
-  const token = data.telegram.botToken;
-  const chatId = data.telegram.chatId;
-  if (!token || !chatId) {
-    showToast('សូមកំណត់ Bot Token និង Chat ID ជាមុន', 'error');
+  if (activeUsers.length === 0) {
+    breakdownEl.innerHTML = '';
+    emptyEl.style.display = 'block';
     return;
   }
 
-  const range = getDateRange('weekly');
-  const entries = data.entries.filter(e => e.date >= range.start && e.date <= range.end);
-  const total = entries.length;
-  const offices = new Set(entries.map(e => e.officeId)).size;
-  const staffC = new Set(entries.map(e => e.staffId)).size;
-  const avgPct = total ? (entries.reduce((s, e) => s + (e.percentage || 0), 0) / total).toFixed(1) : 0;
+  emptyEl.style.display = 'none';
+  let html = '';
 
-  const msg = `📊 របាយការណ៍ប្រចាំសប្ដាហ៍\n` +
-    `📅 ${range.start} ➜ ${range.end}\n\n` +
-    `📋 សកម្មភាពសរុប: ${total}\n` +
-    `🏢 ការិយាល័យ: ${offices}\n` +
-    `👥 មន្ត្រី: ${staffC}\n` +
-    `📊 ភាគរយមធ្យម: ${avgPct}%\n\n` +
-    `⚠️ រំលឹក: សូមពិនិត្យមើលការអនុវត្តការងាររបស់មន្ត្រី`;
+  activeUsers.sort().forEach(user => {
+    const userEntries = filtered.filter(e => e.createdBy === user);
+    const uAvgPct = (userEntries.reduce((s, e) => s + (parseFloat(e.percentage) || 0), 0) / userEntries.length).toFixed(1);
+    const uTotalWeight = userEntries.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0).toFixed(2);
+    const offices = [...new Set(userEntries.map(e => e.office).filter(Boolean))];
+    const staffNames = [...new Set(userEntries.map(e => e.staffName).filter(Boolean))];
 
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'HTML' })
-    });
-    const json = await res.json();
-    if (json.ok) {
-      data.telegram.lastNotified = new Date().toISOString();
-      saveData(data);
-      showToast('ផ្ញើរបាយការណ៍ទៅ Telegram ដោយជោគជ័យ!');
-      if (document.getElementById('lastNotifiedText')) {
-        document.getElementById('lastNotifiedText').textContent = '📅 ផ្ញើចុងក្រោយ: ' + new Date().toLocaleString('km-KH');
-      }
-    } else {
-      showToast('បរាជ័យ: ' + (json.description || 'Unknown error'), 'error');
-    }
-  } catch (err) {
-    showToast('កំហុសក្នុងការផ្ញើ: ' + err.message, 'error');
-  }
+    html += `<div class="user-card">
+      <div class="user-card-header">
+        <h4>👤 ${user}</h4>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:13px;">សកម្មភាព: <strong>${userEntries.length}</strong> | ទម្ងាន់: <strong>${uTotalWeight}</strong> | មធ្យម: <strong>${uAvgPct}%</strong></span>
+          ${getPerformanceBadge(parseFloat(uAvgPct))}
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-light);">
+        <p>🏢 ការិយាល័យ: ${offices.length > 0 ? offices.join(', ') : 'គ្មាន'}</p>
+        <p>👥 មន្ត្រី: ${staffNames.length > 0 ? staffNames.join(', ') : 'គ្មាន'}</p>
+      </div>
+      <div class="table-wrap" style="margin-top:10px;">
+        <table style="font-size:12px;">
+          <thead><tr><th>កាលបរិច្ឆេទ</th><th>សកម្មភាព</th><th>ការិយាល័យ</th><th>ភាគរយ</th></tr></thead>
+          <tbody>${userEntries.map(e => `<tr>
+            <td>${formatDate(e.date)}</td>
+            <td>${truncate(e.activity, 50)}</td>
+            <td>${truncate(e.office, 25)}</td>
+            <td>${progressBarHTML(e.percentage)}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </div>`;
+  });
+
+  breakdownEl.innerHTML = html;
 }
 
-function checkTelegramAuto() {
-  const data = getData();
-  if (!data.telegram.botToken || !data.telegram.chatId) return;
-  const last = data.telegram.lastNotified ? new Date(data.telegram.lastNotified) : null;
-  const now = new Date();
-  if (!last || (now - last) >= 7 * 24 * 60 * 60 * 1000) {
-    sendTelegramReport();
-  }
+// ===== TAB 5: REPORTS =====
+function prepareReports() {
+  const rptPeriod = document.getElementById('rptPeriod');
+  rptPeriod.onchange = function() {
+    const isCustom = this.value === 'custom';
+    document.getElementById('rptCustomFrom').style.display = isCustom ? 'block' : 'none';
+    document.getElementById('rptCustomTo').style.display = isCustom ? 'block' : 'none';
+  };
 }
 
-// ===================== REPORTS =====================
 function generateReport() {
   const data = getData();
-  const period = document.getElementById('reportPeriod').value;
-  let range;
-  if (period === 'custom') {
-    range = {
-      start: document.getElementById('reportFrom').value || '2000-01-01',
-      end: document.getElementById('reportTo').value || '2099-12-31'
-    };
+  const periodType = document.getElementById('rptPeriod').value;
+  const selUser = document.getElementById('rptUser').value;
+  let start, end;
+
+  if (periodType === 'custom') {
+    const fromVal = document.getElementById('rptDateFrom').value;
+    const toVal = document.getElementById('rptDateTo').value;
+    if (!fromVal || !toVal) {
+      showToast('សូមជ្រើសរើសកាលបរិច្ឆេទ!', 'warning');
+      return;
+    }
+    start = new Date(fromVal);
+    end = new Date(toVal);
+    end.setHours(23, 59, 59, 999);
   } else {
-    range = getDateRange(period);
+    const range = getDateRange(periodType);
+    start = range.start;
+    end = range.end;
   }
-  const actF = document.getElementById('reportActivity').value;
-  const offF = document.getElementById('reportOffice').value;
 
-  let entries = data.entries.filter(e => e.date >= range.start && e.date <= range.end);
-  if (actF) entries = entries.filter(e => e.activityId === actF);
-  if (offF) entries = entries.filter(e => e.officeId === offF);
+  let entries = filterByDateRange(data.entries, start, end);
+  if (selUser) entries = entries.filter(e => e.createdBy === selUser);
 
-  const total = entries.length;
-  const offices = new Set(entries.map(e => e.officeId)).size;
-  const staffC = new Set(entries.map(e => e.staffId)).size;
-  const avgPct = total ? (entries.reduce((s, e) => s + (e.percentage || 0), 0) / total).toFixed(1) : 0;
-  const avgW = total ? (entries.reduce((s, e) => s + (e.weight || 0), 0) / total).toFixed(2) : 0;
+  entries.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  const periodLabels = { weekly: 'ប្រចាំសប្ដាហ៍', monthly: 'ប្រចាំខែ', quarterly: 'ប្រចាំត្រីមាស', semiannual: 'ប្រចាំឆមាស', annual: 'ប្រចាំឆ្នាំ', custom: 'កាលបរិច្ឆេទផ្ទាល់ខ្លួន' };
+  // Period label
+  const periodLabels = { week: 'ប្រចាំសប្ដាហ៍', month: 'ប្រចាំខែ', quarter: 'ត្រីមាស', semester: 'ឆមាស', year: 'ប្រចាំឆ្នាំ', custom: 'ផ្ទាល់ខ្លួន' };
+  const periodLabel = periodLabels[periodType] || periodType;
+  document.getElementById('rptTitle').textContent = `📄 របាយការណ៍ ${periodLabel}${selUser ? ' - ' + selUser : ''}`;
 
-  let html = `
-    <div class="section-card">
-      <h3>📄 របាយការណ៍ ${periodLabels[period] || ''} (${range.start} ➜ ${range.end})</h3>
-      <div class="stats-grid" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">សកម្មភាពសរុប</div></div>
-        <div class="stat-card"><div class="stat-value">${offices}</div><div class="stat-label">ការិយាល័យ</div></div>
-        <div class="stat-card"><div class="stat-value">${staffC}</div><div class="stat-label">មន្ត្រី</div></div>
-        <div class="stat-card"><div class="stat-value">${avgPct}%</div><div class="stat-label">ភាគរយមធ្យម</div></div>
-        <div class="stat-card"><div class="stat-value">${avgW}</div><div class="stat-label">មេគុណមធ្យម</div></div>
-      </div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead style="background:#f7f9fc;">
-          <tr><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">កាលបរិច្ឆេទ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">សកម្មភាព</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">សូចនាករ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">ការិយាល័យ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">មន្ត្រី</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">មេគុណ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">លទ្ធផល</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">ភាគរយ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">វាយតម្លៃ</th><th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">បានបង្កើតដោយ</th></tr>
-        </thead>
-        <tbody>`;
+  // Stats
+  const totalAct = entries.length;
+  const activeU = [...new Set(entries.map(e => e.createdBy))].length;
+  const avgPct = entries.length ? (entries.reduce((s, e) => s + (parseFloat(e.percentage) || 0), 0) / entries.length).toFixed(1) : 0;
+  const totalW = entries.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0).toFixed(2);
 
-  entries.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  document.getElementById('rptStats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">📊 សកម្មភាពសរុប</div><div class="stat-value">${totalAct}</div></div>
+    <div class="stat-card green"><div class="stat-label">👥 អ្នកប្រើប្រាស់</div><div class="stat-value">${activeU}</div></div>
+    <div class="stat-card orange"><div class="stat-label">📈 ភាគរយមធ្យម</div><div class="stat-value">${avgPct}%</div></div>
+    <div class="stat-card red"><div class="stat-label">⚖️ ទម្ងាន់សរុប</div><div class="stat-value">${totalW}</div></div>
+  `;
+
+  // Detail table
+  document.getElementById('rptDetailTable').innerHTML = entries.map((e, i) => `<tr>
+    <td>${i + 1}</td>
+    <td>${formatDate(e.date)}</td>
+    <td>${e.createdBy}</td>
+    <td>${truncate(e.activity, 40)}</td>
+    <td>${truncate(e.office, 20)}</td>
+    <td>${truncate(e.staffName, 20)}</td>
+    <td>${e.weight}</td>
+    <td>${progressBarHTML(e.percentage)}</td>
+  </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-light);">មិនមានទិន្នន័យ</td></tr>';
+
+  // Summary by user
+  const userMap = {};
   entries.forEach(e => {
-    html += `<tr>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${e.date}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${getName(data.activities_list, e.activityId)}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${e.indicator || ''}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${getName(data.offices, e.officeId)}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${getName(data.staff, e.staffId)}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${e.weight}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;max-width:200px;">${e.result || ''}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${e.percentage}%</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${getPerformanceBadge(e.percentage)}</td>
-      <td style="padding:8px;border-bottom:1px solid #eee;">${e.createdBy || ''}</td>
+    if (!userMap[e.createdBy]) userMap[e.createdBy] = { count: 0, totalPct: 0, totalWeight: 0 };
+    userMap[e.createdBy].count++;
+    userMap[e.createdBy].totalPct += parseFloat(e.percentage) || 0;
+    userMap[e.createdBy].totalWeight += parseFloat(e.weight) || 0;
+  });
+
+  document.getElementById('rptSummaryTable').innerHTML = Object.keys(userMap).sort().map(user => {
+    const u = userMap[user];
+    const avg = (u.totalPct / u.count).toFixed(1);
+    return `<tr>
+      <td>${user}</td>
+      <td>${u.count}</td>
+      <td>${u.totalWeight.toFixed(2)}</td>
+      <td>${progressBarHTML(parseFloat(avg))}</td>
+      <td>${getPerformanceBadge(parseFloat(avg))}</td>
     </tr>`;
-  });
+  }).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">មិនមានទិន្នន័យ</td></tr>';
 
-  if (!entries.length) {
-    html += '<tr><td colspan="10" style="text-align:center;padding:30px;color:#aaa;">មិនមានទិន្នន័យក្នុងរយៈពេលនេះ</td></tr>';
-  }
-
-  html += '</tbody></table></div>';
-
-  // Summary by activity
-  const actSummary = {};
-  entries.forEach(e => {
-    const aName = getName(data.activities_list, e.activityId);
-    if (!actSummary[aName]) actSummary[aName] = { count: 0, totalPct: 0, totalW: 0 };
-    actSummary[aName].count++;
-    actSummary[aName].totalPct += e.percentage || 0;
-    actSummary[aName].totalW += e.weight || 0;
-  });
-
-  if (Object.keys(actSummary).length > 0) {
-    html += `<div class="section-card" style="margin-top:20px;">
-      <h3>📊 សង្ខេបតាមសកម្មភាព</h3>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead style="background:#f7f9fc;"><tr>
-          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">សកម្មភាព</th>
-          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">ចំនួន</th>
-          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">ភាគរយមធ្យម</th>
-          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">មេគុណមធ្យម</th>
-          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;">វាយតម្លៃ</th>
-        </tr></thead><tbody>`;
-    Object.entries(actSummary).forEach(([name, s]) => {
-      const avg = (s.totalPct / s.count).toFixed(1);
-      const avgWt = (s.totalW / s.count).toFixed(2);
-      html += `<tr>
-        <td style="padding:8px;border-bottom:1px solid #eee;">${name}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;">${s.count}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;">${getProgressBar(parseFloat(avg))}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;">${avgWt}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;">${getPerformanceBadge(parseFloat(avg))}</td>
-      </tr>`;
-    });
-    html += '</tbody></table></div>';
-  }
-
-  document.getElementById('reportOutput').innerHTML = html;
+  document.getElementById('reportOutput').style.display = 'block';
+  showToast('បានបង្កើតរបាយការណ៍ដោយជោគជ័យ!');
 }
 
-// ===================== CSV EXPORT =====================
+// ===== EXPORT CSV =====
 function exportCSV() {
   const data = getData();
-  const period = document.getElementById('reportPeriod').value;
-  let range;
-  if (period === 'custom') {
-    range = {
-      start: document.getElementById('reportFrom').value || '2000-01-01',
-      end: document.getElementById('reportTo').value || '2099-12-31'
-    };
+  const periodType = document.getElementById('rptPeriod').value;
+  const selUser = document.getElementById('rptUser').value;
+  let start, end;
+
+  if (periodType === 'custom') {
+    start = new Date(document.getElementById('rptDateFrom').value);
+    end = new Date(document.getElementById('rptDateTo').value);
+    end.setHours(23, 59, 59, 999);
   } else {
-    range = getDateRange(period);
+    const range = getDateRange(periodType);
+    start = range.start;
+    end = range.end;
   }
-  const actF = document.getElementById('reportActivity').value;
-  const offF = document.getElementById('reportOffice').value;
 
-  let entries = data.entries.filter(e => e.date >= range.start && e.date <= range.end);
-  if (actF) entries = entries.filter(e => e.activityId === actF);
-  if (offF) entries = entries.filter(e => e.officeId === offF);
-  entries.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  let entries = filterByDateRange(data.entries, start, end);
+  if (selUser) entries = entries.filter(e => e.createdBy === selUser);
+  entries.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  const headers = ['កាលបរិច្ឆេទ', 'សកម្មភាព', 'សូចនាករ', 'ការិយាល័យ', 'មន្ត្រី', 'មេគុណទម្ងាន់', 'លទ្ធផល', 'ភាគរយ', 'កំណត់ចំណាំ', 'បានបង្កើតដោយ'];
-  const rows = entries.map(e => [
-    e.date,
-    getName(data.activities_list, e.activityId),
-    e.indicator || '',
-    getName(data.offices, e.officeId),
-    getName(data.staff, e.staffId),
-    e.weight,
-    (e.result || '').replace(/"/g, '""'),
-    e.percentage,
-    (e.note || '').replace(/"/g, '""'),
-    e.createdBy || ''
-  ]);
+  // Build CSV with BOM for UTF-8
+  const headers = ['ល.រ', 'កាលបរិច្ឆេទ', 'អ្នកប្រើប្រាស់', 'សកម្មភាព', 'សូចនាករ', 'ការិយាល័យ', 'មន្ត្រី', 'មេគុណទម្ងាន់', 'លទ្ធផល', 'ភាគរយ', 'កំណត់ចំណាំ'];
+  const escapeCSV = (val) => {
+    const str = String(val || '');
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  };
 
-  let csv = '\uFEFF'; // UTF-8 BOM
-  csv += headers.map(h => `"${h}"`).join(',') + '\n';
-  rows.forEach(r => {
-    csv += r.map(v => `"${v}"`).join(',') + '\n';
+  let csv = '\uFEFF'; // BOM
+  csv += headers.map(escapeCSV).join(',') + '\n';
+  entries.forEach((e, i) => {
+    csv += [i + 1, e.date, e.createdBy, e.activity, e.indicator, e.office, e.staffName, e.weight, e.result, e.percentage, e.note].map(escapeCSV).join(',') + '\n';
   });
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `របាយការណ៍_${range.start}_${range.end}.csv`;
+  a.download = `របាយការណ៍_${new Date().toISOString().split('T')[0]}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast('នាំចេញ CSV ដោយជោគជ័យ!');
+  showToast('បាននាំចេញ CSV ដោយជោគជ័យ!');
 }
 
-// ===================== KEYBOARD ENTER =====================
-document.getElementById('loginPass').addEventListener('keydown', function(e) {
+// ===== TAB 6: SETTINGS / TELEGRAM =====
+function loadTelegramSettings() {
+  const data = getData();
+  document.getElementById('setBotToken').value = data.telegram.botToken || '';
+  document.getElementById('setChatId').value = data.telegram.chatId || '';
+  updateLastNotifiedText(data.telegram.lastNotified);
+}
+
+function updateLastNotifiedText(lastNotified) {
+  const el = document.getElementById('lastNotifiedText');
+  if (lastNotified) {
+    el.textContent = '📅 ការផ្ញើចុងក្រោយ: ' + formatDate(lastNotified);
+  } else {
+    el.textContent = '📅 ការផ្ញើចុងក្រោយ: មិនទាន់បានផ្ញើ';
+  }
+}
+
+function saveTelegramSettings() {
+  const data = getData();
+  data.telegram.botToken = document.getElementById('setBotToken').value.trim();
+  data.telegram.chatId = document.getElementById('setChatId').value.trim();
+  saveData(data);
+  showToast('បានរក្សាទុកការកំណត់ Telegram!');
+}
+
+function buildTelegramMessage() {
+  const data = getData();
+  const { start, end } = getDateRange('week');
+  const filtered = filterByDateRange(data.entries, start, end);
+
+  const totalAct = filtered.length;
+  const activeUsers = [...new Set(filtered.map(e => e.createdBy))].length;
+  const avgPct = filtered.length ? (filtered.reduce((s, e) => s + (parseFloat(e.percentage) || 0), 0) / filtered.length).toFixed(1) : 0;
+  const totalWeight = filtered.reduce((s, e) => s + (parseFloat(e.weight) || 0), 0).toFixed(2);
+
+  const startStr = formatDate(start.toISOString());
+  const endStr = formatDate(end.toISOString());
+
+  let msg = `📊 របាយការណ៍ប្រចាំសប្ដាហ៍\n`;
+  msg += `📅 ${startStr} - ${endStr}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📋 សកម្មភាពសរុប: ${totalAct}\n`;
+  msg += `👥 អ្នកប្រើប្រាស់សកម្ម: ${activeUsers}\n`;
+  msg += `📈 ភាគរយមធ្យម: ${avgPct}%\n`;
+  msg += `⚖️ ទម្ងាន់សរុប: ${totalWeight}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━\n`;
+
+  // Per-user summary
+  const userMap = {};
+  filtered.forEach(e => {
+    if (!userMap[e.createdBy]) userMap[e.createdBy] = { count: 0, totalPct: 0 };
+    userMap[e.createdBy].count++;
+    userMap[e.createdBy].totalPct += parseFloat(e.percentage) || 0;
+  });
+
+  Object.keys(userMap).sort().forEach(user => {
+    const u = userMap[user];
+    const avg = (u.totalPct / u.count).toFixed(1);
+    msg += `👤 ${user}: ${u.count} សកម្មភាព (${avg}%) ${getPerformanceText(parseFloat(avg))}\n`;
+  });
+
+  if (Object.keys(userMap).length === 0) {
+    msg += `ℹ️ មិនមានសកម្មភាពក្នុងសប្ដាហ៍នេះ\n`;
+  }
+
+  return msg;
+}
+
+async function sendTelegramMessage(message) {
+  const data = getData();
+  const token = data.telegram.botToken;
+  const chatId = data.telegram.chatId;
+
+  if (!token || !chatId) {
+    showToast('សូមបញ្ចូល Bot Token និង Chat ID!', 'error');
+    return false;
+  }
+
+  try {
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' })
+    });
+    const result = await response.json();
+    if (result.ok) {
+      return true;
+    } else {
+      showToast('កំហុស Telegram: ' + (result.description || 'Unknown error'), 'error');
+      return false;
+    }
+  } catch (err) {
+    showToast('មិនអាចផ្ញើទៅ Telegram: ' + err.message, 'error');
+    return false;
+  }
+}
+
+async function testTelegram() {
+  const msg = '🧪 សាកល្បងការផ្ញើពីប្រព័ន្ធតាមដាន និងត្រួតពិនិត្យ';
+  const success = await sendTelegramMessage(msg);
+  if (success) {
+    showToast('បានផ្ញើសារសាកល្បងដោយជោគជ័យ!');
+  }
+}
+
+async function sendWeeklyReport() {
+  const msg = buildTelegramMessage();
+  const success = await sendTelegramMessage(msg);
+  if (success) {
+    const data = getData();
+    data.telegram.lastNotified = new Date().toISOString();
+    saveData(data);
+    updateLastNotifiedText(data.telegram.lastNotified);
+    showToast('បានផ្ញើរបាយការណ៍ប្រចាំសប្ដាហ៍!');
+  }
+}
+
+function checkAutoNotify() {
+  const data = getData();
+  if (!data.telegram.botToken || !data.telegram.chatId) return;
+
+  const lastNotified = data.telegram.lastNotified;
+  if (!lastNotified) {
+    // Never sent, send now
+    sendWeeklyReport();
+    return;
+  }
+
+  const last = new Date(lastNotified);
+  const now = new Date();
+  const diffDays = (now - last) / (1000 * 60 * 60 * 24);
+
+  if (diffDays >= 7) {
+    sendWeeklyReport();
+  }
+}
+
+// ===== ENTER KEY LOGIN =====
+document.getElementById('loginPass').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') doLogin();
 });
-document.getElementById('loginUser').addEventListener('keydown', function(e) {
+document.getElementById('loginUser').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') doLogin();
 });
 
-// ===================== INIT =====================
+// ===== ON LOAD: Check session =====
 (function init() {
-  // Ensure default data exists
-  const data = getData();
-  saveData(data);
+  const savedUser = sessionStorage.getItem('currentUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    showApp();
+  }
 })();
 </script>
 </body>
